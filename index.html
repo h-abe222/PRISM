@@ -53,15 +53,18 @@
             margin: 0 auto;
             padding: 0 var(--spacing-md);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             height: 80px;
+            position: relative;
         }
 
         .logo {
+            position: absolute;
+            left: var(--spacing-md);
             display: inline-flex;
             align-items: center;
-            height: 32px;
+            height: 48px;
         }
 
         .logo img {
@@ -90,6 +93,8 @@
         }
 
         .cta-button {
+            position: absolute;
+            right: var(--spacing-md);
             background: var(--primary-black);
             color: var(--primary-white);
             padding: 12px var(--spacing-md);
@@ -113,6 +118,26 @@
             height: calc(100vh - 80px);
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
         }
 
         .hero-image {
@@ -447,7 +472,17 @@
 
     <!-- ヒーロー -->
     <section class="hero">
-        <img src="/assets/images/hero/modern-architecture-hero.jpg" alt="Modern Architecture" class="hero-image">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <img src="/assets/images/hero/modern-architecture-hero.jpg" alt="Modern Architecture" class="hero-image">
+            </div>
+            <div class="hero-slide">
+                <img src="/assets/images/hero/luxury-interior.jpg" alt="Luxury Interior" class="hero-image">
+            </div>
+            <div class="hero-slide">
+                <img src="/assets/images/hero/premium-property.jpg" alt="Premium Property" class="hero-image">
+            </div>
+        </div>
         <div class="hero-overlay">
             <div class="hero-content">
                 <h1 class="hero-title">Private Real-estate Investment Smart Matching</h1>
@@ -556,6 +591,25 @@
     </footer>
 
     <script>
+        // ヒーロースライドショー
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // 5秒ごとに自動スライド
+        setInterval(nextSlide, 5000);
+
         // スムーズスクロール
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
