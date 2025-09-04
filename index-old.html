@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PRISM - VIP投資家様向けの厳選された不動産投資マッチングプラットフォーム。AIと専門家の知見で最適な投資機会をご提案">
+    <title>PRISM - Private Real-estate Investment Smart Matching | VIP不動産投資プラットフォーム</title>
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            color: #2d3748;
+            line-height: 1.6;
+            background: #ffffff;
+        }
+
+        /* ヘッダー */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            height: 40px;
+        }
+        
+        .logo img {
+            height: 100%;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(13%) sepia(68%) saturate(1352%) hue-rotate(196deg) brightness(94%) contrast(95%);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-menu a:hover {
+            color: #1a365d;
+        }
+
+        .cta-button {
+            background: linear-gradient(to bottom, #3182ce, #2563eb);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #2563eb;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 35px,
+                    rgba(255, 255, 255, 0.02) 35px,
+                    rgba(255, 255, 255, 0.02) 70px
+                );
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 3.5em;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: 0.03em;
+        }
+
+        .hero .subtitle {
+            color: #e2e8f0;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1a365d;
+            padding: 16px 40px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 16px 40px;
+            border: 2px solid white;
+            font-weight: 600;
+            font-size: 1.1em;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 特徴セクション */
+        .features {
+            padding: 100px 20px;
+            background: #f7fafc;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #1a365d;
+            margin-bottom: 20px;
+            letter-spacing: 0.03em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #718096;
+            font-size: 1.1em;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border-top: 4px solid #3182ce;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5em;
+            color: #1a365d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        /* サービスフロー */
+        .service-flow {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .flow-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .flow-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, #3182ce, #63b3ed);
+            z-index: 0;
+        }
+
+        .flow-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3182ce, #2563eb);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-size: 1.2em;
+            color: #1a365d;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: #718096;
+            font-size: 0.95em;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        /* CTA セクション */
+        .cta-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            letter-spacing: 0.03em;
+        }
+
+        .cta-content p {
+            color: #e2e8f0;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        /* フッター */
+        .footer {
+            background: #1a202c;
+            color: #a0aec0;
+            padding: 60px 20px 30px;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #2d3748;
+            padding-top: 30px;
+            text-align: center;
+            color: #718096;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .flow-steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header" id="header">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/assets/images/logo/prism-logo.svg" alt="PRISM">
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#features">特徴</a></li>
+                    <li><a href="#service">サービス</a></li>
+                    <li><a href="/about/">企業情報</a></li>
+                    <li><a href="/contact/">お問い合わせ</a></li>
+                </ul>
+            </nav>
+            <a href="/auth/login.html" class="cta-button">会員ログイン</a>
+        </div>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>VIP投資家のための<br>特別な不動産投資体験</h1>
+                <p class="subtitle">
+                    PRISMは、厳選された優良物件と投資家様を結ぶ、<br>
+                    完全招待制の不動産投資マッチングプラットフォームです。
+                </p>
+                <div class="hero-buttons">
+                    <a href="/auth/register.html" class="btn-primary">無料会員登録</a>
+                    <a href="/services/" class="btn-secondary">サービス詳細</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特徴セクション -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">PRISMが選ばれる理由</h2>
+            <p class="section-subtitle">投資成功への3つの強み</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">厳選された物件情報</h3>
+                    <p class="feature-description">
+                        独自の評価基準と専門家の目利きにより、年間1000件以上の物件から上位5%のみを厳選。投資価値の高い物件だけをご紹介します。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">段階的情報開示システム</h3>
+                    <p class="feature-description">
+                        投資家様の関心度に応じて、物件情報を段階的に開示。無駄な時間を省き、効率的な投資判断をサポートします。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI投資分析</h3>
+                    <p class="feature-description">
+                        最新のAI技術により、市場動向、収益予測、リスク評価を多角的に分析。データに基づいた確かな投資判断が可能です。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- サービスフロー -->
+    <section class="service-flow" id="service">
+        <div class="flow-container">
+            <h2 class="section-title">シンプルな投資プロセス</h2>
+            <p class="section-subtitle">登録から投資実行まで、スムーズにサポート</p>
+            
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">会員登録</h3>
+                    <p class="step-description">簡単な情報入力で即日利用開始</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">物件閲覧</h3>
+                    <p class="step-description">厳選物件を段階的に詳細確認</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">シミュレーション</h3>
+                    <p class="step-description">詳細な収益予測と投資分析</p>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">商談・契約</h3>
+                    <p class="step-description">専門家がフルサポート</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTAセクション -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>今すぐ始める特別な投資体験</h2>
+            <p>登録無料・年会費無料・成功報酬型</p>
+            <a href="/auth/register.html" class="btn-primary">無料会員登録</a>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>PRISM</h4>
+                <p style="line-height: 1.7;">
+                    Private Real-estate Investment<br>
+                    Smart Matching<br>
+                    <br>
+                    VIP投資家様向け<br>
+                    不動産投資プラットフォーム
+                </p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>サービス</h4>
+                <ul>
+                    <li><a href="/services/">サービス概要</a></li>
+                    <li><a href="/member/">会員ページ</a></li>
+                    <li><a href="/services/#pricing">料金プラン</a></li>
+                    <li><a href="/services/#faq">よくある質問</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>企業情報</h4>
+                <ul>
+                    <li><a href="/about/">会社概要</a></li>
+                    <li><a href="/about/#philosophy">企業理念</a></li>
+                    <li><a href="/about/#team">運営チーム</a></li>
+                    <li><a href="/contact/">お問い合わせ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>法的情報</h4>
+                <ul>
+                    <li><a href="/terms/">利用規約</a></li>
+                    <li><a href="/privacy/">プライバシーポリシー</a></li>
+                    <li><a href="/law/">特定商取引法</a></li>
+                    <li><a href="/security/">セキュリティ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Franchette Corp. All Rights Reserved.</p>
+            <p style="margin-top: 10px;">株式会社フランシュエット 不動産事業部</p>
+            <p style="margin-top: 5px; font-size: 0.9em;">〒103-0014 東京都中央区日本橋蛎殻町2-13-5 美濃友ビル301A</p>
+        </div>
+    </footer>
+
+    <script>
+        // スクロール時のヘッダーエフェクト
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
