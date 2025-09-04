@@ -450,18 +450,23 @@
             }
 
             .stage-progress {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+                gap: 5px;
+                overflow-x: auto;
+                padding: 10px 0;
             }
 
             .stage-item {
                 display: flex;
+                flex-direction: column;
                 align-items: center;
-                gap: 15px;
-                padding: 15px;
+                gap: 5px;
+                padding: 10px;
                 background: white;
                 border-radius: 10px;
                 box-shadow: var(--shadow-sm);
+                min-width: 60px;
+                flex-shrink: 0;
             }
 
             .stage-item:not(:last-child):after {
@@ -469,16 +474,17 @@
             }
 
             .stage-circle {
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 1.1em;
+                width: 36px;
+                height: 36px;
+                line-height: 36px;
+                font-size: 1em;
                 flex-shrink: 0;
             }
 
             .stage-label {
-                font-size: 1em;
+                font-size: 0.7em;
                 font-weight: 600;
+                text-align: center;
             }
 
             /* タブナビゲーション */
