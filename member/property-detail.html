@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物件詳細 - PRISM VIP会員</title>
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <style>
+        .member-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .member-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .member-name {
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9em;
+            color: var(--gray-500);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .property-detail {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .property-main {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .property-hero {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .property-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-yield-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-light);
+            color: white;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .property-content {
+            padding: 40px;
+        }
+
+        .property-title {
+            color: var(--primary-dark);
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .property-location {
+            color: var(--gray-500);
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .property-price {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+        }
+
+        .property-overview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .overview-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--gray-50);
+        }
+
+        .overview-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .overview-label {
+            color: var(--gray-500);
+            font-size: 0.9em;
+        }
+
+        .property-description {
+            line-height: 1.8;
+            color: var(--gray-600);
+            margin-bottom: 40px;
+        }
+
+        .property-specs {
+            margin-bottom: 40px;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .specs-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-500);
+            width: 30%;
+        }
+
+        .specs-table td {
+            color: var(--gray-600);
+        }
+
+        .property-sidebar {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .investment-summary {
+            background: white;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            color: var(--primary-dark);
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: var(--gray-500);
+            font-size: 0.9em;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .btn-contact {
+            width: 100%;
+            background: var(--primary-light);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .btn-contact:hover {
+            background: #2563eb;
+        }
+
+        .btn-back {
+            width: 100%;
+            background: var(--gray-200);
+            color: var(--gray-600);
+            padding: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--gray-300);
+        }
+
+        @media (max-width: 768px) {
+            .property-detail {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .property-overview {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .member-header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .property-hero {
+                height: 300px;
+            }
+
+            .property-content {
+                padding: 30px 20px;
+            }
+
+            .investment-summary {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 会員ヘッダー -->
+    <header class="member-header">
+        <div class="member-header-content">
+            <div class="logo">
+                <img src="/assets/images/logo/prism-logo-optimized.svg" alt="PRISM">
+            </div>
+            <div class="member-info">
+                <span class="member-name" id="memberName">VIP会員様</span>
+                <a href="/" class="btn-logout" onclick="logout()">ログアウト</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- パンくずリスト -->
+        <div class="breadcrumb">
+            <a href="/member/">物件一覧</a> > <span id="breadcrumbTitle">物件詳細</span>
+        </div>
+
+        <!-- 物件詳細 -->
+        <div class="property-detail">
+            <div class="property-main">
+                <div class="property-hero">
+                    <img id="propertyImage" src="" alt="">
+                    <div class="property-yield-badge" id="propertyYield"></div>
+                </div>
+                
+                <div class="property-content">
+                    <h1 class="property-title" id="propertyTitle"></h1>
+                    <div class="property-location" id="propertyLocation"></div>
+                    <div class="property-price" id="propertyPrice"></div>
+                    
+                    <div class="property-overview">
+                        <div class="overview-item">
+                            <div class="overview-value" id="yieldValue"></div>
+                            <div class="overview-label">表面利回り</div>
+                        </div>
+                        <div class="overview-item">
+                            <div class="overview-value" id="typeValue"></div>
+                            <div class="overview-label">物件種別</div>
+                        </div>
+                    </div>
+                    
+                    <div class="property-description" id="propertyDescription">
+                        <!-- 説明文は JavaScript で設定 -->
+                    </div>
+                    
+                    <div class="property-specs">
+                        <h3 class="section-title">物件詳細情報</h3>
+                        <table class="specs-table" id="specsTable">
+                            <!-- 詳細情報テーブルは JavaScript で設定 -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-sidebar">
+                <div class="investment-summary">
+                    <h3 class="summary-title">投資概要</h3>
+                    <div class="summary-item">
+                        <span class="summary-label">物件価格</span>
+                        <span class="summary-value" id="summaryPrice"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">表面利回り</span>
+                        <span class="summary-value" id="summaryYield"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">想定年間収入</span>
+                        <span class="summary-value" id="summaryIncome"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">エリア</span>
+                        <span class="summary-value" id="summaryArea"></span>
+                    </div>
+                </div>
+                
+                <a href="https://line.me/ti/p/@prism" class="btn-contact">LINEで相談する</a>
+                <a href="/member/" class="btn-back">物件一覧に戻る</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 物件データ（物件一覧ページと同じデータ）
+        const properties = [
+            {
+                id: 1,
+                title: "PRISM南青山プレミアムレジデンス",
+                location: "港区南青山",
+                price: 680000000,
+                yield: 6.35,
+                type: "デザイナーズマンション",
+                area: "港区",
+                image: "/assets/images/hero/hero-1.jpg",
+                description: "南青山の一等地に位置する高級デザイナーズマンション。洗練されたデザインと機能性を兼ね備えた投資価値の高い物件です。周辺環境も良好で、安定した賃貸需要が見込めます。",
+                specs: {
+                    "築年数": "築3年",
+                    "構造": "鉄筋コンクリート造",
+                    "階数": "地上12階建て",
+                    "総戸数": "24戸",
+                    "最寄り駅": "表参道駅徒歩5分",
+                    "土地権利": "所有権",
+                    "管理会社": "PRISM管理株式会社",
+                    "賃貸管理": "一括借上げ対応"
+                }
+            },
+            {
+                id: 2,
+                title: "PRISM表参道タワー",
+                location: "渋谷区神宮前",
+                price: 950000000,
+                yield: 5.8,
+                type: "高級レジデンス",
+                area: "渋谷区",
+                image: "/assets/images/hero/hero-2.jpg",
+                description: "表参道の象徴的なタワーレジデンス。最上階からの眺望は都内屈指の美しさを誇り、富裕層からの需要が高い物件です。",
+                specs: {
+                    "築年数": "築5年",
+                    "構造": "鉄筋コンクリート造",
+                    "階数": "地上20階建て",
+                    "総戸数": "45戸",
+                    "最寄り駅": "表参道駅徒歩3分",
+                    "土地権利": "所有権",
+                    "管理会社": "PRISM管理株式会社",
+                    "賃貸管理": "一括借上げ対応"
+                }
+            },
+            {
+                id: 3,
+                title: "PRISM銀座コートハウス",
+                location: "中央区銀座",
+                price: 1200000000,
+                yield: 5.2,
+                type: "商業複合施設",
+                area: "中央区",
+                image: "/assets/images/hero/hero-3.jpg",
+                description: "銀座の中心地に位置する商業複合施設。1階から3階は商業テナント、4階以上は高級オフィスとなっており、多様な収益源を確保できます。",
+                specs: {
+                    "築年数": "築7年",
+                    "構造": "鉄骨鉄筋コンクリート造",
+                    "階数": "地上15階建て",
+                    "総面積": "3,500㎡",
+                    "最寄り駅": "銀座駅徒歩2分",
+                    "土地権利": "所有権",
+                    "管理会社": "PRISM管理株式会社",
+                    "賃貸管理": "一括借上げ対応"
+                }
+            },
+            {
+                id: 4,
+                title: "PRISM新宿ビジネスタワー",
+                location: "新宿区西新宿",
+                price: 2100000000,
+                yield: 7.1,
+                type: "オフィスビル",
+                area: "新宿区",
+                image: "/assets/images/hero/hero-1.jpg",
+                description: "新宿副都心の中核を成すビジネスタワー。大手企業のテナント需要が高く、安定した収益を期待できる優良物件です。",
+                specs: {
+                    "築年数": "築10年",
+                    "構造": "鉄骨造",
+                    "階数": "地上25階建て",
+                    "総面積": "8,500㎡",
+                    "最寄り駅": "新宿駅徒歩8分",
+                    "土地権利": "所有権",
+                    "管理会社": "PRISM管理株式会社",
+                    "賃貸管理": "一括借上げ対応"
+                }
+            },
+            {
+                id: 5,
+                title: "PRISM赤坂グランドパレス",
+                location: "港区赤坂",
+                price: 850000000,
+                yield: 6.8,
+                type: "高級マンション",
+                area: "港区",
+                image: "/assets/images/hero/hero-2.jpg",
+                description: "赤坂の閑静な住宅地に佇む高級マンション。皇居にも近く、政財界の方々にも愛される立地です。",
+                specs: {
+                    "築年数": "築2年",
+                    "構造": "鉄筋コンクリート造",
+                    "階数": "地上8階建て",
+                    "総戸数": "16戸",
+                    "最寄り駅": "赤坂駅徒歩4分",
+                    "土地権利": "所有権",
+                    "管理会社": "PRISM管理株式会社",
+                    "賃貸管理": "一括借上げ対応"
+                }
+            },
+            {
+                id: 6,
+                title: "PRISM恵比寿ガーデンテラス",
+                location: "渋谷区恵比寿",
+                price: 1350000000,
+                yield: 5.9,
+                type: "複合商業施設",
+                area: "渋谷区",
+                image: "/assets/images/hero/hero-3.jpg",
+                description: "恵比寿ガーデンプレイスに隣接する複合商業施設。商業・オフィス・住宅が一体となった都市型投資物件です。",
+                specs: {
+                    "築年数": "築6年",
+                    "構造": "鉄骨鉄筋コンクリート造",
+                    "階数": "地上18階建て",
+                    "総面積": "4,200㎡",
+                    "最寄り駅": "恵比寿駅徒歩3分",
+                    "土地権利": "所有権",
+                    "管理会社": "PRISM管理株式会社",
+                    "賃貸管理": "一括借上げ対応"
+                }
+            }
+        ];
+
+        // 数値フォーマット関数
+        function formatPrice(price) {
+            if (price >= 100000000) {
+                return (price / 100000000).toFixed(1) + '億円';
+            }
+            return (price / 10000).toLocaleString() + '万円';
+        }
+
+        function formatIncome(price, yield) {
+            const income = Math.round(price * yield / 100);
+            return formatPrice(income);
+        }
+
+        // URLからIDを取得
+        function getPropertyIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return parseInt(urlParams.get('id')) || 1;
+        }
+
+        // 物件詳細を表示
+        function displayPropertyDetail() {
+            const propertyId = getPropertyIdFromUrl();
+            const property = properties.find(p => p.id === propertyId);
+            
+            if (!property) {
+                document.body.innerHTML = '<div style="text-align:center;padding:50px;">物件が見つかりません</div>';
+                return;
+            }
+
+            // 基本情報を設定
+            document.title = `${property.title} - PRISM VIP会員`;
+            document.getElementById('breadcrumbTitle').textContent = property.title;
+            document.getElementById('propertyImage').src = property.image;
+            document.getElementById('propertyImage').alt = property.title;
+            document.getElementById('propertyYield').textContent = `${property.yield}%`;
+            document.getElementById('propertyTitle').textContent = property.title;
+            document.getElementById('propertyLocation').innerHTML = `📍 ${property.location}`;
+            document.getElementById('propertyPrice').textContent = formatPrice(property.price);
+            document.getElementById('yieldValue').textContent = `${property.yield}%`;
+            document.getElementById('typeValue').textContent = property.type;
+            document.getElementById('propertyDescription').textContent = property.description;
+
+            // サイドバー情報を設定
+            document.getElementById('summaryPrice').textContent = formatPrice(property.price);
+            document.getElementById('summaryYield').textContent = `${property.yield}%`;
+            document.getElementById('summaryIncome').textContent = formatIncome(property.price, property.yield);
+            document.getElementById('summaryArea').textContent = property.area;
+
+            // 詳細仕様テーブルを作成
+            const specsTable = document.getElementById('specsTable');
+            specsTable.innerHTML = Object.entries(property.specs)
+                .map(([key, value]) => `
+                    <tr>
+                        <th>${key}</th>
+                        <td>${value}</td>
+                    </tr>
+                `).join('');
+        }
+
+        // ログアウト機能
+        function logout() {
+            sessionStorage.removeItem('prism_user');
+            window.location.href = '/';
+        }
+
+        // ページ読み込み時の処理
+        document.addEventListener('DOMContentLoaded', function() {
+            // ユーザー情報を表示
+            const user = JSON.parse(sessionStorage.getItem('prism_user') || '{}');
+            if (user.name) {
+                document.getElementById('memberName').textContent = user.name;
+            }
+
+            // 物件詳細を表示
+            displayPropertyDetail();
+        });
+    </script>
+</body>
+</html>
