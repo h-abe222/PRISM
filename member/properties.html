@@ -24,6 +24,7 @@
             padding: 40px 0;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
         }
 
         .header h1 {
@@ -36,6 +37,23 @@
             font-size: 1.1em;
             color: #e2e8f0;
             letter-spacing: 0.05em;
+        }
+
+        .back-to-dashboard {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .back-to-dashboard:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .container {
@@ -744,6 +762,7 @@
 </head>
 <body>
     <div class="header">
+        <a href="/member/dashboard.html" class="back-to-dashboard">← ダッシュボードへ戻る</a>
         <h1>PRISM</h1>
         <p>Private Real-estate Investment Smart Matching</p>
         <p style="margin-top: 10px;">投資家様向け 段階的物件提案システム</p>
