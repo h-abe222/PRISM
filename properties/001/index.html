@@ -1205,7 +1205,7 @@
             currentStage = stage;
             updateStageIndicator();
             unlockContent();
-            loadStageContent(stage);
+            // loadStageContent(stage); // 削除: HTMLに既にコンテンツがあるため不要
             
             // ボタンのアクティブ状態を更新
             document.querySelectorAll('.stage-btn').forEach(btn => {
@@ -1254,7 +1254,7 @@
             currentStage = 5;
             updateStageIndicator();
             unlockContent();
-            loadStageContent(5);
+            // loadStageContent(5); // 削除: HTMLに既にコンテンツがあるため不要
             alert('全ての資料がアンロックされました。');
             
             // UI更新
@@ -1268,7 +1268,7 @@
             currentStage = 2;
             updateStageIndicator();
             unlockContent();
-            resetContent();
+            // resetContent(); // 削除: HTMLに既にコンテンツがあるため不要
             showTab('overview', 1);
             document.getElementById('customerType').value = 'interested';
             document.getElementById('currentCustomer').textContent = '関心顧客（鈴木様）';
@@ -1276,8 +1276,8 @@
             alert('初期状態（ステージ2）にリセットしました。');
         }
 
-        // ステージごとのコンテンツ読み込み
-        function loadStageContent(stage) {
+        // ステージごとのコンテンツ読み込み（廃止：HTMLに直接記載）
+        /* function loadStageContent(stage) {
             if (stage >= 3) {
                 // 価格査定のロックを解除して実コンテンツを表示
                 document.querySelector('#valuation .section-card').innerHTML = `
@@ -1386,10 +1386,10 @@
                     </div>
                 `;
             }
-        }
+        } */
 
-        // コンテンツのリセット
-        function resetContent() {
+        // コンテンツのリセット（廃止：HTMLに直接記載）
+        /* function resetContent() {
             // ロック画面を再設定
             document.querySelector('#valuation .section-card').innerHTML = `
                 <div class="locked-overlay">
@@ -1451,7 +1451,7 @@
                     </div>
                 </div>
             `;
-        }
+        } */
 
         function requestConsultation() {
             window.open('https://line.me/ti/p/@prism', '_blank');
