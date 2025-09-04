@@ -108,11 +108,19 @@
             overflow: hidden;
             box-shadow: var(--shadow-sm);
             transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
         }
 
         .property-card:hover {
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
+        }
+        
+        .property-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .property-image {
@@ -322,30 +330,32 @@
         // 物件カードを生成
         function createPropertyCard(property) {
             return `
-                <div class="property-card" data-area="${property.area}" data-price="${property.price}" data-yield="${property.yield}">
-                    <div class="property-image">
-                        <img src="${property.image}" alt="${property.title}">
-                        <div class="property-yield">${property.yield}%</div>
-                    </div>
-                    <div class="property-info">
-                        <h3 class="property-title">${property.title}</h3>
-                        <div class="property-location">
-                            📍 ${property.location}
+                <a href="/properties/${property.id}/" class="property-card-link">
+                    <div class="property-card" data-area="${property.area}" data-price="${property.price}" data-yield="${property.yield}">
+                        <div class="property-image">
+                            <img src="${property.image}" alt="${property.title}">
+                            <div class="property-yield">${property.yield}%</div>
                         </div>
-                        <div class="property-details">
-                            <div class="detail-item">
-                                <div class="detail-label">物件種別</div>
-                                <div class="detail-value">${property.type}</div>
+                        <div class="property-info">
+                            <h3 class="property-title">${property.title}</h3>
+                            <div class="property-location">
+                                📍 ${property.location}
                             </div>
-                            <div class="detail-item">
-                                <div class="detail-label">表面利回り</div>
-                                <div class="detail-value">${property.yield}%</div>
+                            <div class="property-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">物件種別</div>
+                                    <div class="detail-value">${property.type}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">表面利回り</div>
+                                    <div class="detail-value">${property.yield}%</div>
+                                </div>
                             </div>
+                            <div class="property-price">${formatPrice(property.price)}</div>
+                            <div class="btn-detail">詳細を見る</div>
                         </div>
-                        <div class="property-price">${formatPrice(property.price)}</div>
-                        <a href="/properties/${property.id}/" class="btn-detail">詳細を見る</a>
                     </div>
-                </div>
+                </a>
             `;
         }
 
