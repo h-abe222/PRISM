@@ -255,7 +255,7 @@
         }
 
         .unlock-button {
-            background: linear-gradient(to bottom, var(--primary-light), #2563eb);
+            background: var(--primary-black);
             color: white;
             padding: 12px 30px;
             border: none;
@@ -265,11 +265,12 @@
             transition: all 0.2s;
             display: inline-block;
             text-decoration: none;
+            border-radius: 0;
         }
 
         .unlock-button:hover {
-            background: #2563eb;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            background: #1a1a1a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .subsection-title {
@@ -798,8 +799,8 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="advanceStage()">詳細情報を希望する</button>
-                    <button class="btn btn-primary" onclick="requestConsultation()">質問する</button>
+                    <button class="btn btn-black" onclick="advanceStage()">詳細情報を希望する</button>
+                    <button class="btn btn-outline-black" onclick="requestConsultation()">質問する</button>
                 </div>
             </div>
         </div>
@@ -872,8 +873,8 @@
                 </table>
 
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="advanceStage()">価格査定を確認する</button>
-                    <button class="btn btn-primary" onclick="requestConsultation()">専門家に相談する</button>
+                    <button class="btn btn-black" onclick="advanceStage()">価格査定を確認する</button>
+                    <button class="btn btn-outline-black" onclick="requestConsultation()">専門家に相談する</button>
                 </div>
             </div>
         </div>
@@ -1240,7 +1241,7 @@
                         </div>
                     </div>
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="advanceStage()">融資計画を確認する</button>
+                        <button class="btn btn-black" onclick="advanceStage()">融資計画を確認する</button>
                     </div>
                 `;
             }
@@ -1268,7 +1269,7 @@
                         </div>
                     </div>
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="advanceStage()">最終確認へ進む</button>
+                        <button class="btn btn-black" onclick="advanceStage()">最終確認へ進む</button>
                     </div>
                 `;
             }
@@ -1283,7 +1284,7 @@
                         <p style="margin-top: 10px; font-size: 1.2em;">最優先推奨</p>
                     </div>
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="requestConsultation()">LINEで契約相談</button>
+                        <button class="btn btn-black" onclick="requestConsultation()">LINEで契約相談</button>
                     </div>
                 `;
                 
@@ -1316,7 +1317,7 @@
                         </ul>
                     </div>
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="alert('資料をダウンロードしました')">全資料ダウンロード</button>
+                        <button class="btn btn-black" onclick="alert('資料をダウンロードしました')">全資料ダウンロード</button>
                     </div>
                 `;
             }

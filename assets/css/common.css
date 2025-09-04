@@ -265,6 +265,27 @@ textarea {
     color: white;
 }
 
+.btn-black {
+    background: var(--primary-black);
+    color: white;
+}
+
+.btn-black:hover {
+    background: #1a1a1a;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-outline-black {
+    background: transparent;
+    border: 2px solid var(--primary-black);
+    color: var(--primary-black);
+}
+
+.btn-outline-black:hover {
+    background: var(--primary-black);
+    color: white;
+}
+
 .btn:disabled {
     background: var(--gray-200);
     cursor: not-allowed;
