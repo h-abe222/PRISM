@@ -431,10 +431,49 @@
             </div>
             <div class="member-info">
                 <span class="member-name" id="memberName">VIP会員様</span>
+                <button id="adminToggle" onclick="toggleAdminMode()" class="btn-logout" style="margin-right: 10px;">🔧 管理者</button>
                 <a href="/" class="btn-logout" onclick="logout()">ログアウト</a>
             </div>
         </div>
     </header>
+
+    <!-- 管理者パネル -->
+    <div id="adminPanel" style="display: none; position: fixed; top: 80px; right: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 320px; z-index: 1000; max-height: 80vh; overflow-y: auto;">
+        <h3 style="margin-bottom: 15px; color: var(--primary-dark);">🔧 管理者コントロール</h3>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--gray-500);">顧客タイプ選択</label>
+            <select id="customerType" onchange="changeCustomerType()" style="width: 100%; padding: 8px; border: 1px solid var(--gray-200); border-radius: 5px;">
+                <option value="new">新規顧客（田中様）- ステージ1</option>
+                <option value="interested" selected>関心顧客（鈴木様）- ステージ2</option>
+                <option value="serious">本格検討（山田様）- ステージ3</option>
+                <option value="negotiating">商談中（佐藤様）- ステージ4</option>
+                <option value="closing">成約前（高橋様）- ステージ5</option>
+            </select>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--gray-500);">ステージ直接指定</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                <button class="stage-btn" onclick="setStage(1)" style="padding: 8px 16px; border: 1px solid var(--gray-200); background: white; cursor: pointer; border-radius: 5px;">S1</button>
+                <button class="stage-btn active" onclick="setStage(2)" style="padding: 8px 16px; border: 1px solid var(--primary-light); background: var(--primary-lighter); cursor: pointer; border-radius: 5px; color: var(--primary-dark);">S2</button>
+                <button class="stage-btn" onclick="setStage(3)" style="padding: 8px 16px; border: 1px solid var(--gray-200); background: white; cursor: pointer; border-radius: 5px;">S3</button>
+                <button class="stage-btn" onclick="setStage(4)" style="padding: 8px 16px; border: 1px solid var(--gray-200); background: white; cursor: pointer; border-radius: 5px;">S4</button>
+                <button class="stage-btn" onclick="setStage(5)" style="padding: 8px 16px; border: 1px solid var(--gray-200); background: white; cursor: pointer; border-radius: 5px;">S5</button>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 20px; padding: 15px; background: var(--gray-50); border-radius: 5px;">
+            <p style="margin-bottom: 5px;"><strong>現在の状態：</strong></p>
+            <p style="margin: 2px 0;">顧客: <span id="currentCustomer">関心顧客（鈴木様）</span></p>
+            <p style="margin: 2px 0;">ステージ: <span id="currentStageInfo">ステージ2</span></p>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="unlockAll()" style="padding: 10px; background: var(--success); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">🔓 全資料アンロック</button>
+            <button onclick="resetAll()" style="padding: 10px; background: var(--danger); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">🔄 ステージ2にリセット</button>
+        </div>
+    </div>
 
     <div class="container">
         <!-- パンくずリスト -->
@@ -716,10 +755,11 @@
     <script>
         // 現在のステージ（デモ用）
         let currentStage = 2;
+        let isAdminMode = false;
         
         function showTab(tabId, requiredStage) {
-            // 必要なステージに達していない場合
-            if (requiredStage && requiredStage > currentStage) {
+            // 必要なステージに達していない場合（管理者モードでなければ）
+            if (requiredStage && requiredStage > currentStage && !isAdminMode) {
                 showLockedMessage(requiredStage);
                 return;
             }
@@ -864,12 +904,284 @@
             };
             
             tabs.forEach((tab, index) => {
-                if (unlockMap[currentStage] && unlockMap[currentStage].includes(index)) {
+                if ((unlockMap[currentStage] && unlockMap[currentStage].includes(index)) || isAdminMode) {
                     tab.classList.remove('locked');
                 } else {
                     tab.classList.add('locked');
                 }
             });
+        }
+
+        // 管理者モードの切替
+        function toggleAdminMode() {
+            isAdminMode = !isAdminMode;
+            const adminPanel = document.getElementById('adminPanel');
+            const adminBtn = document.getElementById('adminToggle');
+            
+            if (isAdminMode) {
+                adminPanel.style.display = 'block';
+                adminBtn.style.background = 'var(--primary-light)';
+                adminBtn.innerHTML = '🔧 管理者（ON）';
+                unlockContent(); // 管理者モード時は全タブアンロック
+            } else {
+                adminPanel.style.display = 'none';
+                adminBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+                adminBtn.innerHTML = '🔧 管理者';
+                unlockContent(); // 通常モードに戻す
+            }
+        }
+        
+        // ステージ設定（管理者用）
+        function setStage(stage) {
+            currentStage = stage;
+            updateStageIndicator();
+            unlockContent();
+            loadStageContent(stage);
+            
+            // ボタンのアクティブ状態を更新
+            document.querySelectorAll('.stage-btn').forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.borderColor = 'var(--gray-200)';
+                btn.style.color = 'inherit';
+            });
+            event.target.style.background = 'var(--primary-lighter)';
+            event.target.style.borderColor = 'var(--primary-light)';
+            event.target.style.color = 'var(--primary-dark)';
+            
+            // 管理者情報を更新
+            document.getElementById('currentStageInfo').textContent = `ステージ${stage}`;
+            
+            // 該当するタブを表示
+            if (stage === 1) showTab('overview', 1);
+            else if (stage === 2) showTab('simulation', 2);
+            else if (stage >= 3) showTab('overview', 1);
+        }
+        
+        // 顧客タイプ変更（管理者用）
+        function changeCustomerType() {
+            const customerType = document.getElementById('customerType').value;
+            const customerNames = {
+                'new': '新規顧客（田中様）',
+                'interested': '関心顧客（鈴木様）',
+                'serious': '本格検討（山田様）',
+                'negotiating': '商談中（佐藤様）',
+                'closing': '成約前（高橋様）'
+            };
+            
+            const stageMap = {
+                'new': 1,
+                'interested': 2,
+                'serious': 3,
+                'negotiating': 4,
+                'closing': 5
+            };
+            
+            document.getElementById('currentCustomer').textContent = customerNames[customerType];
+            setStage(stageMap[customerType]);
+        }
+        
+        // 全資料アンロック（管理者用）
+        function unlockAll() {
+            currentStage = 5;
+            updateStageIndicator();
+            unlockContent();
+            loadStageContent(5);
+            alert('全ての資料がアンロックされました。');
+            
+            // UI更新
+            document.getElementById('currentStageInfo').textContent = 'ステージ5';
+            document.getElementById('customerType').value = 'closing';
+            document.getElementById('currentCustomer').textContent = '成約前（高橋様）';
+        }
+        
+        // リセット（管理者用）
+        function resetAll() {
+            currentStage = 2;
+            updateStageIndicator();
+            unlockContent();
+            resetContent();
+            showTab('overview', 1);
+            document.getElementById('customerType').value = 'interested';
+            document.getElementById('currentCustomer').textContent = '関心顧客（鈴木様）';
+            document.getElementById('currentStageInfo').textContent = 'ステージ2';
+            alert('初期状態（ステージ2）にリセットしました。');
+        }
+
+        // ステージごとのコンテンツ読み込み
+        function loadStageContent(stage) {
+            if (stage >= 3) {
+                // 価格査定のロックを解除して実コンテンツを表示
+                document.querySelector('#valuation .section-card').innerHTML = `
+                    <h2 class="section-title">3. PRISM独自価格査定分析</h2>
+                    <h3 class="subsection-title">査定結果サマリー</h3>
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-label">売出価格</div>
+                            <div class="kpi-value">6.8</div>
+                            <div class="kpi-unit">億円</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">PRISM査定価格</div>
+                            <div class="kpi-value">7.2</div>
+                            <div class="kpi-unit">億円</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">価格妥当性</div>
+                            <div class="kpi-value" style="color: var(--success);">優良</div>
+                            <div class="kpi-unit">割安判定</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">投資推奨度</div>
+                            <div class="kpi-value">S</div>
+                            <div class="kpi-unit">最優先推奨</div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="advanceStage()">融資計画を確認する</button>
+                    </div>
+                `;
+            }
+            
+            if (stage >= 4) {
+                // 融資計画のコンテンツ
+                document.querySelector('#finance .section-card').innerHTML = `
+                    <h2 class="section-title">4. 融資計画・銀行評価シミュレーション</h2>
+                    <h3 class="subsection-title">推奨融資プラン</h3>
+                    <div class="property-overview">
+                        <div class="info-box">
+                            <h4>融資金額</h4>
+                            <span class="highlight-number">5.1億円</span>
+                            <p>融資比率：75%</p>
+                        </div>
+                        <div class="info-box">
+                            <h4>自己資金</h4>
+                            <span class="highlight-number">1.8億円</span>
+                            <p>頭金＋諸費用</p>
+                        </div>
+                        <div class="info-box">
+                            <h4>想定金利</h4>
+                            <span class="highlight-number">1.2%</span>
+                            <p>変動金利（優遇適用）</p>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="advanceStage()">最終確認へ進む</button>
+                    </div>
+                `;
+            }
+            
+            if (stage >= 5) {
+                // 投資判断サマリーのコンテンツ
+                document.querySelector('#summary .section-card').innerHTML = `
+                    <h2 class="section-title">5. 投資判断サマリー</h2>
+                    <div style="background: var(--primary-lighter); padding: 30px; text-align: center; margin: 20px 0;">
+                        <h2 style="color: var(--primary-dark); margin-bottom: 20px;">PRISM投資推奨度</h2>
+                        <span style="font-size: 4em; color: var(--primary-dark); font-weight: bold;">S</span>
+                        <p style="margin-top: 10px; font-size: 1.2em;">最優先推奨</p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="requestConsultation()">LINEで契約相談</button>
+                    </div>
+                `;
+                
+                // 必要書類のコンテンツ
+                document.querySelector('#documents .section-card').innerHTML = `
+                    <h2 class="section-title">6. ご提供資料一覧</h2>
+                    <h3 class="subsection-title">ダウンロード可能資料</h3>
+                    <div style="background: var(--gray-50); padding: 30px;">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                                <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                                物件概要書（詳細版）
+                            </li>
+                            <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                                <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                                PRISM価値評価レポート（30ページ）
+                            </li>
+                            <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                                <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                                10年間収支シミュレーション（Excel）
+                            </li>
+                            <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                                <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                                重要事項説明書（案）
+                            </li>
+                            <li style="padding: 10px 0; position: relative; padding-left: 35px;">
+                                <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                                売買契約書（案）
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="alert('資料をダウンロードしました')">全資料ダウンロード</button>
+                    </div>
+                `;
+            }
+        }
+
+        // コンテンツのリセット
+        function resetContent() {
+            // ロック画面を再設定
+            document.querySelector('#valuation .section-card').innerHTML = `
+                <div class="locked-overlay">
+                    <div class="locked-content">
+                        <div class="locked-icon">🔒</div>
+                        <h2 class="locked-title">価格査定分析</h2>
+                        <p class="locked-description">
+                            PRISM独自の3手法による詳細な価格査定分析をご覧いただけます。<br>
+                            エリア相場との比較、投資妥当性の判定結果を含みます。
+                        </p>
+                        <button class="unlock-button" onclick="requestUnlock(3)">
+                            アンロックを申請する
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.querySelector('#finance .section-card').innerHTML = `
+                <div class="locked-overlay">
+                    <div class="locked-content">
+                        <div class="locked-icon">🔒</div>
+                        <h2 class="locked-title">融資計画詳細</h2>
+                        <p class="locked-description">
+                            提携金融機関の融資条件、必要属性シミュレーション、<br>
+                            銀行評価額予測など、融資実現に向けた詳細情報をご提供します。
+                        </p>
+                        <button class="unlock-button" onclick="requestUnlock(4)">
+                            商談を申し込む
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.querySelector('#summary .section-card').innerHTML = `
+                <div class="locked-overlay">
+                    <div class="locked-content">
+                        <div class="locked-icon">🔒</div>
+                        <h2 class="locked-title">投資判断サマリー</h2>
+                        <p class="locked-description">
+                            総合評価、リスク分析、投資スケジュール等、<br>
+                            最終的な投資判断に必要な全情報を統合したレポートです。
+                        </p>
+                        <button class="unlock-button" onclick="requestUnlock(5)">
+                            最終検討段階へ進む
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.querySelector('#documents .section-card').innerHTML = `
+                <div class="locked-overlay">
+                    <div class="locked-content">
+                        <div class="locked-icon">🔒</div>
+                        <h2 class="locked-title">契約関連書類一式</h2>
+                        <p class="locked-description">
+                            重要事項説明書、売買契約書案、登記関連書類等、<br>
+                            契約に必要な全ての書類をダウンロードいただけます。
+                        </p>
+                        <button class="unlock-button" onclick="requestUnlock(5)">
+                            契約準備を開始する
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
         function requestConsultation() {
