@@ -1,0 +1,220 @@
+name: PRISM Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: '18.x'
+
+jobs:
+  # ==========================================
+  # ビルドとテスト
+  # ==========================================
+  test:
+    name: 🧪 Test & Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: 📚 Install Dependencies
+        run: npm ci
+      
+      - name: 🔍 Run Lint
+        run: npm run lint --if-present
+      
+      - name: 🧪 Run Tests
+        run: npm test --if-present
+      
+      - name: 📊 Code Coverage
+        if: github.event_name == 'pull_request'
+        run: npm run test:coverage --if-present
+
+  # ==========================================
+  # セキュリティチェック
+  # ==========================================
+  security:
+    name: 🔒 Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: 🔐 Run Security Audit
+        run: npm audit --audit-level=moderate
+      
+      - name: 🛡️ OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'PRISM'
+          path: '.'
+          format: 'HTML'
+
+  # ==========================================
+  # ステージング環境へのデプロイ
+  # ==========================================
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    needs: [test, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://staging.prism-investment.vercel.app
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: 🔧 Setup Vercel CLI
+        run: npm install -g vercel
+      
+      - name: 🏗️ Build Project
+        run: |
+          npm ci
+          npm run build --if-present
+      
+      - name: 🚀 Deploy to Vercel (Staging)
+        run: |
+          vercel deploy --prod \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=${{ secrets.VERCEL_ORG_ID }} \
+            --env NODE_ENV=staging \
+            --env NEXT_PUBLIC_API_URL=${{ secrets.STAGING_API_URL }} \
+            --env NEXT_PUBLIC_GA_ID=${{ secrets.STAGING_GA_ID }}
+
+  # ==========================================
+  # 本番環境へのデプロイ
+  # ==========================================
+  deploy-production:
+    name: 🎯 Deploy to Production
+    needs: [test, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://prism-investment.com
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: 🔧 Setup Vercel CLI
+        run: npm install -g vercel
+      
+      - name: 🏗️ Build Project
+        run: |
+          npm ci
+          npm run build --if-present
+      
+      - name: 🚀 Deploy to Vercel (Production)
+        run: |
+          vercel deploy --prod \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=${{ secrets.VERCEL_ORG_ID }} \
+            --env NODE_ENV=production \
+            --env NEXT_PUBLIC_API_URL=${{ secrets.PROD_API_URL }} \
+            --env NEXT_PUBLIC_GA_ID=${{ secrets.PROD_GA_ID }}
+      
+      - name: 📊 Report Deployment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.payload.deployment.id,
+              state: 'success',
+              environment_url: 'https://prism-investment.com',
+              description: 'Deployment successful!'
+            });
+
+  # ==========================================
+  # CloudFlare Pages へのデプロイ（静的サイト用）
+  # ==========================================
+  deploy-cloudflare:
+    name: ☁️ Deploy to CloudFlare Pages
+    needs: [test, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: 🏗️ Build Static Site
+        run: |
+          npm ci
+          npm run build:static --if-present
+      
+      - name: ☁️ Deploy to CloudFlare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: prism-investment
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  # ==========================================
+  # パフォーマンス監視
+  # ==========================================
+  lighthouse:
+    name: 🔦 Lighthouse Performance Check
+    needs: [deploy-staging]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: 🔦 Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://staging.prism-investment.vercel.app
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  # ==========================================
+  # 通知
+  # ==========================================
+  notification:
+    name: 📮 Send Notifications
+    needs: [deploy-production]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: 📧 Send Slack Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: |
+            🚀 PRISM Deployment ${{ job.status }}
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
