@@ -632,9 +632,15 @@
         </div>
     </header>
 
+    <!-- 管理者パネル背景オーバーレイ -->
+    <div id="adminOverlay" onclick="closeAdminPanel()" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+    
     <!-- 管理者パネル -->
     <div id="adminPanel" style="display: none; position: fixed; top: 80px; right: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 320px; z-index: 1000; max-height: 80vh; overflow-y: auto;">
-        <h3 style="margin-bottom: 15px; color: var(--primary-dark);">🔧 管理者コントロール</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: var(--primary-dark);">🔧 管理者コントロール</h3>
+            <button onclick="closeAdminPanel()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; color: var(--gray-500);">×</button>
+        </div>
         
         <div style="margin-bottom: 20px;">
             <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--gray-500);">顧客タイプ選択</label>
@@ -1120,19 +1126,43 @@
         function toggleAdminMode() {
             isAdminMode = !isAdminMode;
             const adminPanel = document.getElementById('adminPanel');
+            const adminOverlay = document.getElementById('adminOverlay');
             const adminBtn = document.getElementById('adminToggle');
             
             if (isAdminMode) {
                 adminPanel.style.display = 'block';
+                adminOverlay.style.display = 'block';
                 adminBtn.style.background = 'var(--primary-light)';
                 adminBtn.innerHTML = '🔧 管理者（ON）';
                 unlockContent(); // 管理者モード時は全タブアンロック
+                
+                // モバイルでのスクロール防止
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = 'hidden';
+                }
             } else {
                 adminPanel.style.display = 'none';
+                adminOverlay.style.display = 'none';
                 adminBtn.style.background = 'rgba(255, 255, 255, 0.2)';
                 adminBtn.innerHTML = '🔧 管理者';
                 unlockContent(); // 通常モードに戻す
+                document.body.style.overflow = '';
             }
+        }
+        
+        // 管理者パネルを閉じる
+        function closeAdminPanel() {
+            isAdminMode = false;
+            const adminPanel = document.getElementById('adminPanel');
+            const adminOverlay = document.getElementById('adminOverlay');
+            const adminBtn = document.getElementById('adminToggle');
+            
+            adminPanel.style.display = 'none';
+            adminOverlay.style.display = 'none';
+            adminBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+            adminBtn.innerHTML = '🔧 管理者';
+            unlockContent(); // 通常モードに戻す
+            document.body.style.overflow = '';
         }
         
         // ステージ設定（管理者用）
