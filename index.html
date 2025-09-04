@@ -145,6 +145,26 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes kenBurnsZoom {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.08);
+            }
+        }
+
+        .hero-slide.active .hero-image {
+            animation: kenBurnsZoom 5s ease-out forwards;
+        }
+
+        .hero-slide:not(.active) .hero-image {
+            transform: scale(1);
+            animation: none;
         }
 
         .hero-overlay {
@@ -598,7 +618,22 @@
 
         function showSlide(index) {
             slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
+                const isActive = i === index;
+                slide.classList.toggle('active', isActive);
+                
+                // アニメーションをリセット
+                const image = slide.querySelector('.hero-image');
+                if (isActive) {
+                    // アクティブなスライドのアニメーションを再開
+                    image.style.animation = 'none';
+                    // 強制的にリフローを発生させてアニメーションをリセット
+                    image.offsetHeight;
+                    image.style.animation = 'kenBurnsZoom 5s ease-out forwards';
+                } else {
+                    // 非アクティブなスライドはスケールを1に戻す
+                    image.style.animation = 'none';
+                    image.style.transform = 'scale(1)';
+                }
             });
         }
 
@@ -606,6 +641,11 @@
             currentSlide = (currentSlide + 1) % totalSlides;
             showSlide(currentSlide);
         }
+
+        // 初期化：最初のスライドのアニメーションを開始
+        document.addEventListener('DOMContentLoaded', function() {
+            showSlide(0);
+        });
 
         // 5秒ごとに自動スライド
         setInterval(nextSlide, 5000);
