@@ -35,5 +35,5 @@ PRISMは、厳選された不動産投資情報を段階的に開示する、VIP
 **株式会社フランシュエット 不動産事業部**
 
 ---
-*Last Updated: 2024-01-15*
+*Last Updated: 2024-01-15 - Deployment Test*
 *Deployed with ❤️ on Vercel*
