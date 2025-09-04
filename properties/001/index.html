@@ -963,8 +963,8 @@
     </div>
 
     <script>
-        // 現在のステージ（デモ用）
-        let currentStage = 2;
+        // 現在のステージ（デフォルトで全資料開放）
+        let currentStage = 5;
         let isAdminMode = false;
         
         function showTab(tabId, requiredStage) {
@@ -1436,9 +1436,16 @@
                 document.getElementById('memberName').textContent = user.name;
             }
 
-            // 初期状態設定
+            // 初期状態設定（ステージ5で全資料開放）
+            currentStage = 5;
             updateStageIndicator();
             unlockContent();
+            loadStageContent(5);
+            
+            // 管理者パネルのデフォルト設定を更新
+            document.getElementById('customerType').value = 'closing';
+            document.getElementById('currentCustomer').textContent = '成約前（高橋様）';
+            document.getElementById('currentStageInfo').textContent = 'ステージ5';
         });
     </script>
 </body>
