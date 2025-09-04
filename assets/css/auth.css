@@ -9,19 +9,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
 /* 認証コンテナ */
 .auth-container {
     background: white;
     width: 100%;
-    max-width: 460px;
+    max-width: 600px;
     box-shadow: var(--shadow-lg);
 }
 
-.auth-container-wide {
-    max-width: 600px;
+.auth-container-narrow {
+    max-width: 480px;
 }
 
 /* 認証ヘッダー */
@@ -40,7 +40,7 @@
 
 /* 認証フォーム */
 .auth-form {
-    padding: 40px;
+    padding: 50px 40px;
 }
 
 .form-title {
@@ -190,9 +190,15 @@
 
 /* 認証フッター */
 .auth-footer {
-    padding: 30px 40px;
+    padding: 40px;
     background: var(--gray-50);
     text-align: center;
+    border-top: 1px solid var(--gray-100);
+}
+
+.verify-footer {
+    padding: 40px;
+    background: var(--gray-50);
     border-top: 1px solid var(--gray-100);
 }
 
@@ -243,7 +249,7 @@
 .verify-container {
     background: white;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     box-shadow: var(--shadow-lg);
     text-align: center;
 }
@@ -261,7 +267,7 @@
 }
 
 .verify-content {
-    padding: 40px;
+    padding: 50px 40px;
 }
 
 .mail-icon {
@@ -380,8 +386,21 @@
 
 /* レスポンシブ対応 */
 @media (max-width: 600px) {
+    .auth-body {
+        padding: 20px;
+    }
+    
     .auth-form {
-        padding: 30px 20px;
+        padding: 40px 30px;
+    }
+    
+    .verify-content {
+        padding: 40px 30px;
+    }
+    
+    .auth-footer,
+    .verify-footer {
+        padding: 30px;
     }
     
     .investment-range {
