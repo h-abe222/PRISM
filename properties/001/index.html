@@ -888,18 +888,32 @@
         <!-- 3. 価格査定（ステージ3で開示） -->
         <div id="valuation" class="tab-content">
             <div class="section-card">
-                <div class="locked-overlay">
-                    <div class="locked-content">
-                        <div class="locked-icon">🔒</div>
-                        <h2 class="locked-title">価格査定分析</h2>
-                        <p class="locked-description">
-                            PRISM独自の3手法による詳細な価格査定分析をご覧いただけます。<br>
-                            エリア相場との比較、投資妥当性の判定結果を含みます。
-                        </p>
-                        <button class="unlock-button" onclick="requestUnlock(3)">
-                            アンロックを申請する
-                        </button>
+                <h2 class="section-title">3. PRISM独自価格査定分析</h2>
+                <h3 class="subsection-title">査定結果サマリー</h3>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">売出価格</div>
+                        <div class="kpi-value">6.8</div>
+                        <div class="kpi-unit">億円</div>
                     </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">PRISM査定価格</div>
+                        <div class="kpi-value">7.2</div>
+                        <div class="kpi-unit">億円</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">価格妥当性</div>
+                        <div class="kpi-value" style="color: var(--success);">優良</div>
+                        <div class="kpi-unit">割安判定</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">投資推奨度</div>
+                        <div class="kpi-value">S</div>
+                        <div class="kpi-unit">最優先推奨</div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-black" onclick="advanceStage()">融資計画を確認する</button>
                 </div>
             </div>
         </div>
@@ -907,18 +921,27 @@
         <!-- 4. 融資計画（ステージ4で開示） -->
         <div id="finance" class="tab-content">
             <div class="section-card">
-                <div class="locked-overlay">
-                    <div class="locked-content">
-                        <div class="locked-icon">🔒</div>
-                        <h2 class="locked-title">融資計画詳細</h2>
-                        <p class="locked-description">
-                            提携金融機関の融資条件、必要属性シミュレーション、<br>
-                            銀行評価額予測など、融資実現に向けた詳細情報をご提供します。
-                        </p>
-                        <button class="unlock-button" onclick="requestUnlock(4)">
-                            商談を申し込む
-                        </button>
+                <h2 class="section-title">4. 融資計画・銀行評価シミュレーション</h2>
+                <h3 class="subsection-title">推奨融資プラン</h3>
+                <div class="property-overview">
+                    <div class="info-box">
+                        <h4>融資金額</h4>
+                        <span class="highlight-number">5.1億円</span>
+                        <p>融資比率：75%</p>
                     </div>
+                    <div class="info-box">
+                        <h4>自己資金</h4>
+                        <span class="highlight-number">1.8億円</span>
+                        <p>頭金＋諸費用</p>
+                    </div>
+                    <div class="info-box">
+                        <h4>想定金利</h4>
+                        <span class="highlight-number">1.2%</span>
+                        <p>変動金利（優遇適用）</p>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-black" onclick="advanceStage()">最終確認へ進む</button>
                 </div>
             </div>
         </div>
@@ -926,18 +949,14 @@
         <!-- 5. 投資判断サマリー（ステージ5で開示） -->
         <div id="summary" class="tab-content">
             <div class="section-card">
-                <div class="locked-overlay">
-                    <div class="locked-content">
-                        <div class="locked-icon">🔒</div>
-                        <h2 class="locked-title">投資判断サマリー</h2>
-                        <p class="locked-description">
-                            総合評価、リスク分析、投資スケジュール等、<br>
-                            最終的な投資判断に必要な全情報を統合したレポートです。
-                        </p>
-                        <button class="unlock-button" onclick="requestUnlock(5)">
-                            最終検討段階へ進む
-                        </button>
-                    </div>
+                <h2 class="section-title">5. 投資判断サマリー</h2>
+                <div style="background: var(--primary-lighter); padding: 30px; text-align: center; margin: 20px 0;">
+                    <h2 style="color: var(--primary-dark); margin-bottom: 20px;">PRISM投資推奨度</h2>
+                    <span style="font-size: 4em; color: var(--primary-dark); font-weight: bold;">S</span>
+                    <p style="margin-top: 10px; font-size: 1.2em;">最優先推奨</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-black" onclick="requestConsultation()">LINEで契約相談</button>
                 </div>
             </div>
         </div>
@@ -945,18 +964,34 @@
         <!-- 6. 必要書類一式（ステージ5で開示） -->
         <div id="documents" class="tab-content">
             <div class="section-card">
-                <div class="locked-overlay">
-                    <div class="locked-content">
-                        <div class="locked-icon">🔒</div>
-                        <h2 class="locked-title">契約関連書類一式</h2>
-                        <p class="locked-description">
-                            重要事項説明書、売買契約書案、登記関連書類等、<br>
-                            契約に必要な全ての書類をダウンロードいただけます。
-                        </p>
-                        <button class="unlock-button" onclick="requestUnlock(5)">
-                            契約準備を開始する
-                        </button>
-                    </div>
+                <h2 class="section-title">6. ご提供資料一覧</h2>
+                <h3 class="subsection-title">ダウンロード可能資料</h3>
+                <div style="background: var(--gray-50); padding: 30px;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                            <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                            物件概要書（詳細版）
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                            <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                            PRISM価値評価レポート（30ページ）
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                            <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                            10年間収支シミュレーション（Excel）
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid var(--gray-100); position: relative; padding-left: 35px;">
+                            <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                            重要事項説明書（案）
+                        </li>
+                        <li style="padding: 10px 0; position: relative; padding-left: 35px;">
+                            <span style="position: absolute; left: 0; color: var(--success); font-weight: bold; font-size: 1.2em;">✓</span>
+                            売買契約書（案）
+                        </li>
+                    </ul>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-black" onclick="alert('資料をダウンロードしました')">全資料ダウンロード</button>
                 </div>
             </div>
         </div>
@@ -1440,7 +1475,6 @@
             currentStage = 5;
             updateStageIndicator();
             unlockContent();
-            loadStageContent(5);
             
             // 管理者パネルのデフォルト設定を更新
             document.getElementById('customerType').value = 'closing';
