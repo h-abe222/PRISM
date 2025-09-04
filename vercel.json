@@ -1,32 +1,7 @@
 {
   "name": "prism-vip",
   "version": 2,
-  "public": true,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
-  ]
+  "buildCommand": "",
+  "outputDirectory": "./",
+  "framework": null
 }
