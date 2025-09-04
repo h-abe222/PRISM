@@ -70,12 +70,46 @@ body {
 }
 
 .logo {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+}
+
+.logo img {
+    height: 100%;
+    width: auto;
+    filter: brightness(0) invert(1); /* 白抜き */
+}
+
+.logo-large {
+    display: inline-flex;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.logo-large img {
+    height: 100%;
+    width: auto;
+    filter: brightness(0) invert(1); /* 白抜き */
+}
+
+/* ブランドカラー版 */
+.logo.logo-brand img {
+    filter: brightness(0) saturate(100%) invert(13%) sepia(68%) saturate(1352%) hue-rotate(196deg) brightness(94%) contrast(95%);
+}
+
+.logo-large.logo-brand img {
+    filter: brightness(0) saturate(100%) invert(13%) sepia(68%) saturate(1352%) hue-rotate(196deg) brightness(94%) contrast(95%);
+}
+
+.logo-text {
     font-size: 1.8em;
     font-weight: 700;
     letter-spacing: 0.15em;
 }
 
-.logo-large {
+.logo-text-large {
     font-size: 2.5em;
     font-weight: 700;
     letter-spacing: 0.15em;
