@@ -164,7 +164,31 @@
         .property-description {
             line-height: 1.8;
             color: var(--gray-600);
+            margin-bottom: 30px;
+        }
+
+        .property-full-description {
+            line-height: 1.8;
+            color: var(--gray-600);
             margin-bottom: 40px;
+        }
+
+        .property-full-description h4 {
+            color: var(--primary-dark);
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid var(--gray-100);
+            padding-bottom: 10px;
+        }
+
+        .property-full-description ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .property-full-description li {
+            margin-bottom: 8px;
         }
 
         .property-specs {
@@ -348,6 +372,10 @@
                         <!-- 説明文は JavaScript で設定 -->
                     </div>
                     
+                    <div class="property-full-description" id="propertyFullDescription">
+                        <!-- 詳細説明は JavaScript で設定 -->
+                    </div>
+                    
                     <div class="property-specs">
                         <h3 class="section-title">物件詳細情報</h3>
                         <table class="specs-table" id="specsTable">
@@ -378,6 +406,34 @@
                     </div>
                 </div>
                 
+                <div class="investment-summary" id="financialSummary" style="display: none;">
+                    <h3 class="summary-title">収益シミュレーション</h3>
+                    <div class="summary-item">
+                        <span class="summary-label">月額家賃収入</span>
+                        <span class="summary-value" id="monthlyIncome"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">管理費等</span>
+                        <span class="summary-value" id="managementFee"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">実質月額収入</span>
+                        <span class="summary-value" id="netMonthlyIncome"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">実質利回り</span>
+                        <span class="summary-value" id="netYield"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">節税効果</span>
+                        <span class="summary-value" id="taxBenefits"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">10年総収益予想</span>
+                        <span class="summary-value" id="roi10year"></span>
+                    </div>
+                </div>
+                
                 <a href="https://line.me/ti/p/@prism" class="btn-contact">LINEで相談する</a>
                 <a href="/member/" class="btn-back">物件一覧に戻る</a>
             </div>
@@ -396,16 +452,66 @@
                 type: "デザイナーズマンション",
                 area: "港区",
                 image: "/assets/images/hero/hero-1.jpg",
-                description: "南青山の一等地に位置する高級デザイナーズマンション。洗練されたデザインと機能性を兼ね備えた投資価値の高い物件です。周辺環境も良好で、安定した賃貸需要が見込めます。",
+                description: "南青山の一等地に位置する高級デザイナーズマンション。洗練されたデザインと機能性を兼ね備えた投資価値の高い物件です。東京メトロ表参道駅から徒歩5分という抜群の立地に加え、青山通りの緑豊かな環境が魅力的です。建物は著名な建築家による設計で、モダンなファサードと機能的な間取りが特徴的です。",
+                fullDescription: `
+                    <h4>物件概要</h4>
+                    <p>PRISM南青山プレミアムレジデンスは、港区南青山の最高立地に建つデザイナーズマンションです。表参道駅徒歩5分の利便性と、青山通りの落ち着いた住環境を両立した希少物件です。</p>
+                    
+                    <h4>立地の魅力</h4>
+                    <ul>
+                        <li>東京メトロ表参道駅徒歩5分（銀座線・半蔵門線・千代田線）</li>
+                        <li>青山通りに面した抜群の視認性</li>
+                        <li>表参道ヒルズまで徒歩3分</li>
+                        <li>青山一丁目駅も利用可能（徒歩7分）</li>
+                        <li>赤坂御用地、明治神宮外苑の緑豊かな環境</li>
+                    </ul>
+                    
+                    <h4>建物特徴</h4>
+                    <ul>
+                        <li>著名建築家による洗練されたデザイン</li>
+                        <li>24時間セキュリティシステム</li>
+                        <li>コンシェルジュサービス完備</li>
+                        <li>屋上庭園・共用ラウンジ</li>
+                        <li>宅配ボックス・駐車場完備</li>
+                    </ul>
+                    
+                    <h4>投資価値</h4>
+                    <ul>
+                        <li>表面利回り6.35%の高収益物件</li>
+                        <li>港区南青山の希少立地による資産価値の安定性</li>
+                        <li>富裕層・外国人駐在員からの高い賃貸需要</li>
+                        <li>一括借上げによる安定収益の確保</li>
+                    </ul>
+                `,
                 specs: {
-                    "築年数": "築3年",
-                    "構造": "鉄筋コンクリート造",
-                    "階数": "地上12階建て",
+                    "物件名": "PRISM南青山プレミアムレジデンス",
+                    "所在地": "東京都港区南青山3丁目",
+                    "アクセス": "東京メトロ表参道駅徒歩5分",
+                    "築年月": "2021年3月（築3年）",
+                    "構造規模": "鉄筋コンクリート造地上12階建て",
                     "総戸数": "24戸",
-                    "最寄り駅": "表参道駅徒歩5分",
                     "土地権利": "所有権",
+                    "用途地域": "商業地域",
+                    "建ぺい率": "80%",
+                    "容積率": "600%",
                     "管理会社": "PRISM管理株式会社",
-                    "賃貸管理": "一括借上げ対応"
+                    "管理形態": "24時間有人管理",
+                    "駐車場": "機械式24台",
+                    "設備": "エレベーター2基、宅配ボックス、オートロック",
+                    "賃貸管理": "一括借上げ保証（30年間）"
+                },
+                financialData: {
+                    price: 680000000,
+                    yield: 6.35,
+                    annualIncome: 43180000,
+                    monthlyIncome: 3598333,
+                    managementFee: 150000,
+                    netMonthlyIncome: 3448333,
+                    netAnnualIncome: 41380000,
+                    netYield: 6.08,
+                    taxBenefits: "減価償却による節税効果約年間280万円",
+                    roi10year: "10年間総収益予想：4.3億円",
+                    capitalGains: "立地プレミアムによる資産価値上昇期待"
                 }
             },
             {
@@ -556,6 +662,11 @@
             document.getElementById('yieldValue').textContent = `${property.yield}%`;
             document.getElementById('typeValue').textContent = property.type;
             document.getElementById('propertyDescription').textContent = property.description;
+            
+            // 詳細説明を設定（HTMLとして）
+            if (property.fullDescription) {
+                document.getElementById('propertyFullDescription').innerHTML = property.fullDescription;
+            }
 
             // サイドバー情報を設定
             document.getElementById('summaryPrice').textContent = formatPrice(property.price);
@@ -572,6 +683,17 @@
                         <td>${value}</td>
                     </tr>
                 `).join('');
+
+            // 財務データを表示（南青山物件のみ）
+            if (property.financialData && property.id === 1) {
+                document.getElementById('financialSummary').style.display = 'block';
+                document.getElementById('monthlyIncome').textContent = formatPrice(property.financialData.monthlyIncome);
+                document.getElementById('managementFee').textContent = formatPrice(property.financialData.managementFee);
+                document.getElementById('netMonthlyIncome').textContent = formatPrice(property.financialData.netMonthlyIncome);
+                document.getElementById('netYield').textContent = `${property.financialData.netYield}%`;
+                document.getElementById('taxBenefits').textContent = property.financialData.taxBenefits;
+                document.getElementById('roi10year').textContent = property.financialData.roi10year;
+            }
         }
 
         // ログアウト機能
