@@ -3,282 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>会員登録 - PRISM VIP会員</title>
+    <title>会員申請 - PRISM VIP会員</title>
     <link rel="stylesheet" href="/assets/css/common.css">
     <link rel="stylesheet" href="/assets/css/auth.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .register-container {
-            background: white;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .register-header {
-            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 2.5em;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            margin-bottom: 10px;
-        }
-
-        .register-subtitle {
-            color: #e2e8f0;
-            font-size: 0.95em;
-            letter-spacing: 0.05em;
-        }
-
-        .register-form {
-            padding: 40px;
-        }
-
-        .form-title {
-            color: #1a365d;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .form-description {
-            text-align: center;
-            color: #718096;
-            margin-bottom: 30px;
-            font-size: 0.95em;
-        }
-
-        .form-section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            color: #1a365d;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            color: #4a5568;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            letter-spacing: 0.03em;
-        }
-
-        .required {
-            color: #e53e3e;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="password"],
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #cbd5e0;
-            font-size: 1em;
-            transition: all 0.3s;
-        }
-
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #3182ce;
-            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-        }
-
-        .password-hint {
-            color: #718096;
-            font-size: 0.85em;
-            margin-top: 5px;
-        }
-
-        .investment-range {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .radio-card {
-            position: relative;
-        }
-
-        .radio-card input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .radio-card label {
-            display: block;
-            padding: 15px;
-            border: 2px solid #e2e8f0;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 0;
-        }
-
-        .radio-card input[type="radio"]:checked + label {
-            border-color: #3182ce;
-            background: #eff6ff;
-            color: #1a365d;
-        }
-
-        .radio-card label:hover {
-            border-color: #cbd5e0;
-        }
-
-        .terms-group {
-            background: #f7fafc;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-top: 5px;
-        }
-
-        .checkbox-group label {
-            margin: 0;
-            font-weight: normal;
-            color: #4a5568;
-            line-height: 1.6;
-        }
-
-        .checkbox-group a {
-            color: #3182ce;
-            text-decoration: none;
-        }
-
-        .checkbox-group a:hover {
-            text-decoration: underline;
-        }
-
-        .btn-register {
-            width: 100%;
-            background: linear-gradient(to bottom, #3182ce, #2563eb);
-            color: white;
-            padding: 16px;
-            border: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-register:hover {
-            background: #2563eb;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-register:disabled {
-            background: #cbd5e0;
-            cursor: not-allowed;
-        }
-
-        .register-footer {
-            padding: 30px 40px;
-            background: #f7fafc;
-            text-align: center;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .login-prompt {
-            color: #4a5568;
-            margin-bottom: 15px;
-        }
-
-        .btn-login {
-            color: #3182ce;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .btn-login:hover {
-            text-decoration: underline;
-        }
-
-        .back-to-top {
-            display: block;
-            margin-top: 20px;
-            color: #718096;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-
-        .back-to-top:hover {
-            color: #4a5568;
+        .form-section {
+            margin-bottom: 30px;
         }
 
         @media (max-width: 600px) {
             .form-row {
                 grid-template-columns: 1fr;
             }
-            
-            .investment-range {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
-<body>
-    <div class="register-container">
+<body class="auth-body">
+    <div class="auth-container">
         <!-- ヘッダー -->
-        <div class="register-header">
+        <div class="auth-header">
             <div class="logo-large">
                 <img src="/assets/images/logo/prism-logo-optimized.svg" alt="PRISM">
             </div>
-            <div class="register-subtitle">VIP MEMBER REGISTRATION</div>
+            <div class="auth-subtitle">VIP MEMBER APPLICATION</div>
         </div>
 
         <!-- 登録フォーム -->
-        <form class="register-form" id="registerForm" onsubmit="handleRegister(event)">
-            <h2 class="form-title">新規会員登録</h2>
+        <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+            <h2 class="form-title">新規会員申請</h2>
             <p class="form-description">下記フォームに必要事項をご入力ください</p>
             
             <!-- 基本情報 -->
@@ -375,13 +133,13 @@
                 </div>
             </div>
             
-            <button type="submit" class="btn-register">無料で会員登録</button>
+            <button type="submit" class="btn btn-primary btn-full">会員申請を送信</button>
         </form>
 
         <!-- フッター -->
-        <div class="register-footer">
+        <div class="auth-footer">
             <div class="login-prompt">
-                既に会員登録がお済みの方は
+                既に会員申請がお済みの方は
                 <a href="/auth/login.html" class="btn-login">こちらからログイン</a>
             </div>
             <a href="/" class="back-to-top">← トップページに戻る</a>
@@ -417,8 +175,8 @@
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             
-            // デモ用：登録成功として処理
-            alert('会員登録が完了しました。\nログインページに移動します。');
+            // デモ用：申請成功として処理
+            alert('会員申請を受け付けました。\n審査完了後、ログイン情報をお送りします。');
             
             // ログインページへリダイレクト
             window.location.href = '/auth/login.html';
