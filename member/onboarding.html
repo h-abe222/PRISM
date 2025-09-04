@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール設定 - PRISM VIP会員</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            line-height: 1.5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #38a169, #68d391);
+            height: 100%;
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .onboarding-card {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            color: #cbd5e0;
+            font-size: 0.9em;
+        }
+
+        .step.active {
+            color: #3182ce;
+        }
+
+        .step.completed {
+            color: #38a169;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .step.active .step-number {
+            background: #3182ce;
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: #38a169;
+            color: white;
+        }
+
+        .step-name {
+            font-weight: 500;
+        }
+
+        .card-title {
+            color: #1a365d;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .card-description {
+            color: #718096;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .card-body {
+            padding: 40px;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .section-title {
+            color: #1a365d;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e0;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-card,
+        .checkbox-card {
+            position: relative;
+        }
+
+        .radio-card input[type="radio"],
+        .checkbox-card input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-card label,
+        .checkbox-card label {
+            display: block;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .radio-card input:checked + label,
+        .checkbox-card input:checked + label {
+            border-color: #3182ce;
+            background: #eff6ff;
+            color: #1a365d;
+        }
+
+        .range-slider {
+            margin-top: 15px;
+        }
+
+        .range-input {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .range-value {
+            text-align: center;
+            color: #1a365d;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to bottom, #3182ce, #2563eb);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(to bottom, #38a169, #2f855a);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855a;
+            box-shadow: 0 4px 15px rgba(56, 161, 105, 0.3);
+        }
+
+        .help-text {
+            color: #718096;
+            font-size: 0.85em;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .tag-input-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            min-height: 50px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: #3182ce;
+            color: white;
+            padding: 5px 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preference-item {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .preference-item:hover {
+            border-color: #cbd5e0;
+        }
+
+        .preference-item.selected {
+            background: #3182ce;
+            color: white;
+            border-color: #3182ce;
+        }
+
+        @media (max-width: 768px) {
+            .step-indicator {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">PRISM</div>
+            <div style="color: #e2e8f0; font-size: 0.9em;">プロフィール設定</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <div class="container">
+        <div class="onboarding-card">
+            <!-- カードヘッダー -->
+            <div class="card-header">
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-name">基本情報</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-name">投資プロフィール</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-name">興味・関心</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-name">確認</div>
+                    </div>
+                </div>
+                
+                <h2 class="card-title">プロフィールを完成させましょう</h2>
+                <p class="card-description">
+                    あなたに最適な投資物件をご提案するため、いくつか質問にお答えください
+                </p>
+            </div>
+
+            <!-- カード本体 -->
+            <form id="onboardingForm" onsubmit="handleSubmit(event)">
+                <div class="card-body">
+                    <!-- ステップ1: 基本情報 -->
+                    <div class="form-section active" id="step1">
+                        <h3 class="section-title">基本情報</h3>
+                        
+                        <div class="form-group">
+                            <label for="company">会社名・組織名</label>
+                            <input type="text" id="company" name="company" placeholder="例：株式会社PRISM">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">役職</label>
+                            <input type="text" id="position" name="position" placeholder="例：代表取締役">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">電話番号（任意）</label>
+                            <input type="text" id="phone" name="phone" placeholder="090-0000-0000">
+                            <p class="help-text">重要なご連絡の際に使用させていただきます</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>ご希望の連絡方法</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="contact-email" name="contactMethod" value="email" checked>
+                                    <label for="contact-email">メール</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="contact-phone" name="contactMethod" value="phone">
+                                    <label for="contact-phone">電話</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="contact-line" name="contactMethod" value="line">
+                                    <label for="contact-line">LINE</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="contact-meeting" name="contactMethod" value="meeting">
+                                    <label for="contact-meeting">対面</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ステップ2: 投資プロフィール -->
+                    <div class="form-section" id="step2">
+                        <h3 class="section-title">投資プロフィール</h3>
+                        
+                        <div class="form-group">
+                            <label>投資経験年数</label>
+                            <div class="radio-group">
+                                <div class="radio-card">
+                                    <input type="radio" id="exp-none" name="experience" value="none">
+                                    <label for="exp-none">初めて</label>
+                                </div>
+                                <div class="radio-card">
+                                    <input type="radio" id="exp-1-3" name="experience" value="1-3">
+                                    <label for="exp-1-3">1〜3年</label>
+                                </div>
+                                <div class="radio-card">
+                                    <input type="radio" id="exp-3-5" name="experience" value="3-5">
+                                    <label for="exp-3-5">3〜5年</label>
+                                </div>
+                                <div class="radio-card">
+                                    <input type="radio" id="exp-5-10" name="experience" value="5-10">
+                                    <label for="exp-5-10">5〜10年</label>
+                                </div>
+                                <div class="radio-card">
+                                    <input type="radio" id="exp-10plus" name="experience" value="10plus">
+                                    <label for="exp-10plus">10年以上</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="budget">投資予算規模</label>
+                            <div class="range-slider">
+                                <div class="range-value" id="budgetValue">5億円</div>
+                                <input type="range" id="budget" name="budget" min="1" max="50" value="5" 
+                                       oninput="updateBudgetValue(this.value)" class="range-input">
+                                <div class="range-labels">
+                                    <span>1億円</span>
+                                    <span>50億円以上</span>
+                                </div>
+                            </div>
+                            <p class="help-text">おおよその投資可能額をお選びください</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>投資目的（複数選択可）</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="purpose-asset" name="purpose" value="asset">
+                                    <label for="purpose-asset">資産形成</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="purpose-income" name="purpose" value="income">
+                                    <label for="purpose-income">安定収入</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="purpose-tax" name="purpose" value="tax">
+                                    <label for="purpose-tax">節税対策</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="purpose-inheritance" name="purpose" value="inheritance">
+                                    <label for="purpose-inheritance">相続対策</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="purpose-diversify" name="purpose" value="diversify">
+                                    <label for="purpose-diversify">分散投資</label>
+                                </div>
+                                <div class="checkbox-card">
+                                    <input type="checkbox" id="purpose-business" name="purpose" value="business">
+                                    <label for="purpose-business">事業用</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>リスク許容度</label>
+                            <div class="radio-group">
+                                <div class="radio-card">
+                                    <input type="radio" id="risk-low" name="risk" value="low">
+                                    <label for="risk-low">低リスク重視</label>
+                                </div>
+                                <div class="radio-card">
+                                    <input type="radio" id="risk-medium" name="risk" value="medium">
+                                    <label for="risk-medium">バランス型</label>
+                                </div>
+                                <div class="radio-card">
+                                    <input type="radio" id="risk-high" name="risk" value="high">
+                                    <label for="risk-high">高リターン重視</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ステップ3: 興味・関心 -->
+                    <div class="form-section" id="step3">
+                        <h3 class="section-title">興味・関心のある物件タイプ</h3>
+                        
+                        <div class="form-group">
+                            <label>物件タイプ（複数選択可）</label>
+                            <div class="preferences-grid" id="propertyTypes">
+                                <div class="preference-item" data-value="residential">住宅・マンション</div>
+                                <div class="preference-item" data-value="office">オフィスビル</div>
+                                <div class="preference-item" data-value="retail">商業施設</div>
+                                <div class="preference-item" data-value="hotel">ホテル・宿泊施設</div>
+                                <div class="preference-item" data-value="logistics">物流施設</div>
+                                <div class="preference-item" data-value="medical">医療・介護施設</div>
+                                <div class="preference-item" data-value="land">土地</div>
+                                <div class="preference-item" data-value="reit">REIT</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>希望エリア（複数選択可）</label>
+                            <div class="preferences-grid" id="areas">
+                                <div class="preference-item" data-value="tokyo-central">都心5区</div>
+                                <div class="preference-item" data-value="tokyo-23">東京23区</div>
+                                <div class="preference-item" data-value="tokyo-metro">首都圏</div>
+                                <div class="preference-item" data-value="kansai">関西圏</div>
+                                <div class="preference-item" data-value="tokai">東海圏</div>
+                                <div class="preference-item" data-value="regional">地方都市</div>
+                                <div class="preference-item" data-value="overseas">海外</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timeline">投資検討時期</label>
+                            <select id="timeline" name="timeline">
+                                <option value="">選択してください</option>
+                                <option value="immediate">すぐに検討したい</option>
+                                <option value="1month">1ヶ月以内</option>
+                                <option value="3months">3ヶ月以内</option>
+                                <option value="6months">6ヶ月以内</option>
+                                <option value="1year">1年以内</option>
+                                <option value="future">将来的に</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="comments">その他ご要望（任意）</label>
+                            <textarea id="comments" name="comments" 
+                                    placeholder="特にご興味のある物件や、ご要望などがございましたらご記入ください"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ステップ4: 確認 -->
+                    <div class="form-section" id="step4">
+                        <h3 class="section-title">入力内容の確認</h3>
+                        
+                        <div id="confirmationContent" style="background: #f7fafc; padding: 30px; margin-bottom: 30px;">
+                            <!-- 動的に生成される確認内容 -->
+                        </div>
+                        
+                        <div style="text-align: center; padding: 30px; background: #eff6ff;">
+                            <h4 style="color: #1a365d; margin-bottom: 15px;">✨ プロフィール設定の準備が完了しました</h4>
+                            <p style="color: #4a5568; line-height: 1.8;">
+                                ご入力いただいた情報を基に、<br>
+                                あなたに最適な投資物件をご提案させていただきます。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ボタングループ -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="prevStep()" style="display: none;">
+                        ← 前へ
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        次へ →
+                    </button>
+                    <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
+                        完了してダッシュボードへ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        // ページ読み込み時の処理
+        document.addEventListener('DOMContentLoaded', function() {
+            // 選択可能な項目の処理
+            document.querySelectorAll('.preference-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+        });
+
+        // 予算スライダーの更新
+        function updateBudgetValue(value) {
+            const displayValue = value >= 50 ? '50億円以上' : `${value}億円`;
+            document.getElementById('budgetValue').textContent = displayValue;
+        }
+
+        // 次のステップへ
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                // 現在のステップを非表示
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+                
+                // 次のステップを表示
+                currentStep++;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                
+                // プログレスバーの更新
+                const progress = (currentStep / totalSteps) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+                
+                // ボタンの表示制御
+                updateButtons();
+                
+                // 最終確認ステップの場合、内容を生成
+                if (currentStep === 4) {
+                    generateConfirmation();
+                }
+                
+                // スクロールを上部へ
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // 前のステップへ
+        function prevStep() {
+            if (currentStep > 1) {
+                // 現在のステップを非表示
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                // 前のステップを表示
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+                
+                // プログレスバーの更新
+                const progress = (currentStep / totalSteps) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+                
+                // ボタンの表示制御
+                updateButtons();
+                
+                // スクロールを上部へ
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // ボタンの表示制御
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // 前へボタン
+            if (currentStep === 1) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'block';
+            }
+            
+            // 次へ/完了ボタン
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        // 確認内容の生成
+        function generateConfirmation() {
+            const formData = new FormData(document.getElementById('onboardingForm'));
+            const selectedPropertyTypes = Array.from(document.querySelectorAll('#propertyTypes .selected'))
+                .map(item => item.textContent);
+            const selectedAreas = Array.from(document.querySelectorAll('#areas .selected'))
+                .map(item => item.textContent);
+            
+            let confirmationHTML = `
+                <div style="display: grid; gap: 20px;">
+                    <div>
+                        <h4 style="color: #1a365d; margin-bottom: 10px;">基本情報</h4>
+                        <p>会社名: ${formData.get('company') || '未入力'}</p>
+                        <p>役職: ${formData.get('position') || '未入力'}</p>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #1a365d; margin-bottom: 10px;">投資プロフィール</h4>
+                        <p>投資予算: ${document.getElementById('budgetValue').textContent}</p>
+                        <p>投資経験: ${getRadioValue('experience') || '未選択'}</p>
+                        <p>リスク許容度: ${getRadioValue('risk') || '未選択'}</p>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #1a365d; margin-bottom: 10px;">興味のある物件</h4>
+                        <p>物件タイプ: ${selectedPropertyTypes.join(', ') || '未選択'}</p>
+                        <p>希望エリア: ${selectedAreas.join(', ') || '未選択'}</p>
+                        <p>検討時期: ${formData.get('timeline') || '未選択'}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('confirmationContent').innerHTML = confirmationHTML;
+        }
+
+        // ラジオボタンの値を取得
+        function getRadioValue(name) {
+            const checked = document.querySelector(`input[name="${name}"]:checked`);
+            if (checked) {
+                return checked.parentElement.querySelector('label').textContent;
+            }
+            return null;
+        }
+
+        // フォーム送信処理
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // プロフィール情報を保存
+            const userData = JSON.parse(sessionStorage.getItem('prism_user') || '{}');
+            userData.profileCompleted = true;
+            userData.onboardingDate = new Date().toISOString();
+            sessionStorage.setItem('prism_user', JSON.stringify(userData));
+            
+            // ウェルカムページへ遷移
+            window.location.href = '/member/welcome.html';
+        }
+    </script>
+</body>
+</html>

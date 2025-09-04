@@ -4,163 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン - PRISM VIP会員</title>
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-container {
-            background: white;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .login-header {
-            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 2.5em;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            margin-bottom: 10px;
-        }
-
-        .login-subtitle {
-            color: #e2e8f0;
-            font-size: 0.95em;
-            letter-spacing: 0.05em;
-        }
-
-        .login-form {
-            padding: 40px;
-        }
-
-        .form-title {
-            color: #1a365d;
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            color: #4a5568;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            letter-spacing: 0.03em;
-        }
-
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #cbd5e0;
-            font-size: 1em;
-            transition: all 0.3s;
-        }
-
-        input[type="email"]:focus,
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #3182ce;
-            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-        }
-
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            font-size: 0.9em;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #4a5568;
-        }
-
-        .forgot-password {
-            color: #3182ce;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .forgot-password:hover {
-            color: #2563eb;
-        }
-
-        .btn-login {
-            width: 100%;
-            background: linear-gradient(to bottom, #3182ce, #2563eb);
-            color: white;
-            padding: 14px;
-            border: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-login:hover {
-            background: #2563eb;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .demo-login {
-            margin-top: 20px;
-            padding: 20px;
-            background: #eff6ff;
-            border-left: 4px solid #3182ce;
-        }
-
-        .demo-title {
-            color: #1a365d;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .demo-credentials {
-            color: #4a5568;
-            font-size: 0.9em;
-            line-height: 1.6;
-        }
-
-        .demo-credentials code {
-            background: white;
-            padding: 2px 8px;
-            border: 1px solid #e2e8f0;
-            font-family: 'Courier New', monospace;
-        }
-
+        /* ページ固有のスタイル */
         .btn-demo {
             width: 100%;
-            background: #38a169;
+            background: var(--success);
             color: white;
             padding: 12px;
             border: none;
@@ -173,93 +23,23 @@
         .btn-demo:hover {
             background: #2f855a;
         }
-
-        .login-footer {
-            padding: 30px 40px;
-            background: #f7fafc;
-            text-align: center;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .signup-prompt {
-            color: #4a5568;
-            margin-bottom: 15px;
-        }
-
-        .btn-signup {
-            color: #3182ce;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            padding: 10px 30px;
-            border: 2px solid #3182ce;
-            transition: all 0.3s;
-        }
-
-        .btn-signup:hover {
-            background: #3182ce;
-            color: white;
-        }
-
-        .back-to-top {
-            display: block;
-            margin-top: 20px;
-            color: #718096;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-
-        .back-to-top:hover {
-            color: #4a5568;
-        }
-
-        /* ローディング表示 */
-        .loading {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .loading.active {
-            display: flex;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3182ce;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
-<body>
+<body class="auth-body">
     <!-- ローディング -->
     <div class="loading" id="loading">
         <div class="spinner"></div>
     </div>
 
-    <div class="login-container">
+    <div class="auth-container">
         <!-- ヘッダー -->
-        <div class="login-header">
-            <div class="logo">PRISM</div>
-            <div class="login-subtitle">VIP MEMBER LOGIN</div>
+        <div class="auth-header">
+            <div class="logo-large">PRISM</div>
+            <div class="auth-subtitle">VIP MEMBER LOGIN</div>
         </div>
 
         <!-- ログインフォーム -->
-        <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+        <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
             <h2 class="form-title">会員ログイン</h2>
             
             <div class="form-group">
@@ -280,7 +60,7 @@
                 <a href="#" class="forgot-password">パスワードを忘れた方</a>
             </div>
             
-            <button type="submit" class="btn-login">ログイン</button>
+            <button type="submit" class="btn btn-primary btn-full">ログイン</button>
             
             <!-- デモ用ログイン情報 -->
             <div class="demo-login">
@@ -294,7 +74,7 @@
         </form>
 
         <!-- フッター -->
-        <div class="login-footer">
+        <div class="auth-footer">
             <div class="signup-prompt">まだ会員登録がお済みでない方</div>
             <a href="/auth/register.html" class="btn-signup">新規会員登録</a>
             <a href="/" class="back-to-top">← トップページに戻る</a>

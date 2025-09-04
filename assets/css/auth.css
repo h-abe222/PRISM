@@ -1,0 +1,406 @@
+/* ==========================================
+   認証ページ専用スタイルシート
+   ========================================== */
+
+/* 認証ページ共通背景 */
+.auth-body {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 認証コンテナ */
+.auth-container {
+    background: white;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
+}
+
+.auth-container-wide {
+    max-width: 600px;
+}
+
+/* 認証ヘッダー */
+.auth-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.auth-subtitle {
+    color: var(--gray-100);
+    font-size: 0.95em;
+    letter-spacing: 0.05em;
+}
+
+/* 認証フォーム */
+.auth-form {
+    padding: 40px;
+}
+
+.form-title {
+    color: var(--primary-dark);
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form-description {
+    text-align: center;
+    color: var(--gray-400);
+    margin-bottom: 30px;
+    font-size: 0.95em;
+}
+
+/* フォームオプション */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 0.9em;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gray-500);
+}
+
+.forgot-password {
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: #2563eb;
+}
+
+/* デモログイン */
+.demo-login {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--primary-lighter);
+    border-left: 4px solid var(--primary-light);
+}
+
+.demo-title {
+    color: var(--primary-dark);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.demo-credentials {
+    color: var(--gray-500);
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.demo-credentials code {
+    background: white;
+    padding: 2px 8px;
+    border: 1px solid var(--gray-100);
+    font-family: 'Courier New', monospace;
+}
+
+/* パスワードヒント */
+.password-hint {
+    color: var(--gray-400);
+    font-size: 0.85em;
+    margin-top: 5px;
+}
+
+/* 投資範囲選択 */
+.investment-range {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.radio-card {
+    position: relative;
+}
+
+.radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-card label {
+    display: block;
+    padding: 15px;
+    border: 2px solid var(--gray-100);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 0;
+}
+
+.radio-card input[type="radio"]:checked + label {
+    border-color: var(--primary-light);
+    background: var(--primary-lighter);
+    color: var(--primary-dark);
+}
+
+.radio-card label:hover {
+    border-color: var(--gray-200);
+}
+
+/* 利用規約 */
+.terms-group {
+    background: var(--gray-50);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-weight: normal;
+    color: var(--gray-500);
+    line-height: 1.6;
+}
+
+.checkbox-group a {
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+.checkbox-group a:hover {
+    text-decoration: underline;
+}
+
+/* 認証フッター */
+.auth-footer {
+    padding: 30px 40px;
+    background: var(--gray-50);
+    text-align: center;
+    border-top: 1px solid var(--gray-100);
+}
+
+.signup-prompt,
+.login-prompt {
+    color: var(--gray-500);
+    margin-bottom: 15px;
+}
+
+.btn-signup {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    padding: 10px 30px;
+    border: 2px solid var(--primary-light);
+    transition: all 0.3s;
+}
+
+.btn-signup:hover {
+    background: var(--primary-light);
+    color: white;
+}
+
+.btn-login {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-login:hover {
+    text-decoration: underline;
+}
+
+.back-to-top {
+    display: block;
+    margin-top: 20px;
+    color: var(--gray-400);
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.back-to-top:hover {
+    color: var(--gray-500);
+}
+
+/* メール確認画面専用 */
+.verify-container {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.verify-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    padding: 40px;
+}
+
+.verify-subtitle {
+    color: var(--gray-100);
+    font-size: 0.95em;
+    letter-spacing: 0.05em;
+}
+
+.verify-content {
+    padding: 40px;
+}
+
+.mail-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.verify-title {
+    color: var(--primary-dark);
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.verify-message {
+    color: var(--gray-500);
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.email-display {
+    background: var(--primary-lighter);
+    padding: 15px;
+    margin: 20px 0;
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 1.1em;
+    border-left: 4px solid var(--primary-light);
+}
+
+/* 確認コード入力 */
+.verify-code-section {
+    margin: 30px 0;
+    padding: 30px;
+    background: var(--gray-50);
+}
+
+.code-input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.code-input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 600;
+    border: 2px solid var(--gray-200);
+    background: white;
+    color: var(--primary-dark);
+    transition: all 0.3s;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* 再送信セクション */
+.resend-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--gray-100);
+}
+
+.resend-text {
+    color: var(--gray-400);
+    margin-bottom: 15px;
+}
+
+.btn-resend {
+    color: var(--primary-light);
+    background: none;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1em;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.btn-resend:hover {
+    color: #2563eb;
+}
+
+.btn-resend:disabled {
+    color: var(--gray-200);
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.timer {
+    color: var(--gray-400);
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+/* 成功アニメーション */
+.success-animation {
+    display: none;
+    font-size: 4em;
+    color: var(--success);
+    animation: checkmark 0.5s ease-in-out;
+}
+
+@keyframes checkmark {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    .auth-form {
+        padding: 30px 20px;
+    }
+    
+    .investment-range {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .code-input-group {
+        gap: 5px;
+    }
+    
+    .code-input {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2em;
+    }
+}
