@@ -398,26 +398,220 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .member-header {
+                padding: 15px 0;
+            }
+
             .member-header-content {
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
+                padding: 0 15px;
             }
-            
-            .nav-tabs {
-                flex-direction: column;
+
+            .member-info {
+                gap: 10px;
+                font-size: 0.9em;
             }
-            
-            .section-card {
-                padding: 20px;
+
+            .btn-logout {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            /* 管理者パネルのモバイル対応 */
+            #adminPanel {
+                width: calc(100vw - 30px) !important;
+                right: 15px !important;
+                left: 15px !important;
+                top: 140px !important;
+                max-height: 60vh !important;
+            }
+
+            /* パンくずナビ */
+            .breadcrumb {
+                font-size: 0.9em;
+                margin-bottom: 20px;
+            }
+
+            /* ステージインジケーター */
+            .stage-indicator {
+                margin-bottom: 20px;
+            }
+
+            .stage-indicator h2 {
+                font-size: 1.3em;
+                margin-bottom: 15px;
             }
 
             .stage-progress {
                 flex-direction: column;
+                gap: 15px;
+            }
+
+            .stage-item {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 15px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: var(--shadow-sm);
             }
 
             .stage-item:not(:last-child):after {
                 display: none;
+            }
+
+            .stage-circle {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 1.1em;
+                flex-shrink: 0;
+            }
+
+            .stage-label {
+                font-size: 1em;
+                font-weight: 600;
+            }
+
+            /* タブナビゲーション */
+            .nav-tabs {
+                flex-direction: column;
+                gap: 5px;
+                margin-bottom: 20px;
+            }
+
+            .nav-tab {
+                padding: 15px 20px;
+                font-size: 0.95em;
+                text-align: left;
+                border-radius: 8px;
+            }
+
+            .nav-tab.locked {
+                opacity: 0.5;
+                background: var(--gray-100);
+                padding: 12px 20px;
+            }
+
+            /* セクションカード */
+            .section-card {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .section-title {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+
+            .subsection-title {
+                font-size: 1.1em;
+                margin: 20px 0 10px;
+            }
+
+            /* KPIグリッド */
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .kpi-card {
+                padding: 15px;
+            }
+
+            .kpi-value {
+                font-size: 1.8em;
+            }
+
+            /* 物件概要 */
+            .property-overview {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .info-box {
+                padding: 15px;
+            }
+
+            .highlight-number {
+                font-size: 1.6em;
+            }
+
+            /* ロック画面 */
+            .locked-overlay {
+                padding: 30px 20px;
+            }
+
+            .locked-content {
+                max-width: none;
+            }
+
+            .locked-icon {
+                font-size: 3em;
+                margin-bottom: 15px;
+            }
+
+            .locked-title {
+                font-size: 1.3em;
+                margin-bottom: 10px;
+            }
+
+            .locked-description {
+                font-size: 0.95em;
+                margin-bottom: 20px;
+                line-height: 1.6;
+            }
+
+            /* ボタン */
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.95em;
+            }
+
+            .unlock-button {
+                padding: 12px 24px;
+                font-size: 0.95em;
+            }
+
+            .action-buttons {
+                margin-top: 20px;
+            }
+
+            .action-buttons .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            /* チャート・グラフのモバイル最適化 */
+            .chart-container {
+                overflow-x: auto;
+                margin: 15px 0;
+            }
+
+            /* テーブルのモバイル最適化 */
+            table {
+                font-size: 0.9em;
+                width: 100%;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            /* テキストのモバイル調整 */
+            body {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+
+            p {
+                line-height: 1.7;
             }
         }
     </style>
