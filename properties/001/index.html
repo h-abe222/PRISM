@@ -714,20 +714,20 @@
                 </div>
             </div>
             <div class="stage-description">
-                <h3>ステージ2：関心表明</h3>
-                <p>物件概要をご確認いただき、より詳細な収益シミュレーションをご覧いただける段階です。</p>
-                <p style="margin-top: 10px;"><strong>アンロック済み：</strong>物件概要、収益シミュレーション</p>
-                <p><strong>次のステージで開示：</strong>価格査定分析、融資計画詳細</p>
+                <h3>ステージ5：最終確認</h3>
+                <p>全ての資料をご確認いただき、投資判断に必要な情報を全て閲覧できる段階です。</p>
+                <p style="margin-top: 10px;"><strong>アンロック済み：</strong>全ての資料</p>
+                <p><strong>次のステップ：</strong>LINEでのご相談・ご契約のお手続き</p>
             </div>
         </div>
 
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('overview', 1)">1. 物件概要</button>
             <button class="nav-tab" onclick="showTab('simulation', 2)">2. 収益シミュレーション</button>
-            <button class="nav-tab locked" onclick="showLockedMessage(3)">3. 価格査定</button>
-            <button class="nav-tab locked" onclick="showLockedMessage(4)">4. 融資計画</button>
-            <button class="nav-tab locked" onclick="showLockedMessage(5)">5. 投資判断サマリー</button>
-            <button class="nav-tab locked" onclick="showLockedMessage(5)">6. 必要書類一式</button>
+            <button class="nav-tab" onclick="showTab('valuation', 3)">3. 価格査定</button>
+            <button class="nav-tab" onclick="showTab('finance', 4)">4. 融資計画</button>
+            <button class="nav-tab" onclick="showTab('summary', 5)">5. 投資判断サマリー</button>
+            <button class="nav-tab" onclick="showTab('documents', 5)">6. 必要書類一式</button>
         </div>
 
         <!-- 1. 物件概要（ステージ1で開示） -->
