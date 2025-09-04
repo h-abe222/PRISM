@@ -145,13 +145,12 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
-            transform: scale(1);
-            transition: transform 0.3s ease;
+            transform: scale(1.05);
         }
 
         @keyframes kenBurnsZoom {
             0% {
-                transform: scale(1);
+                transform: scale(1.05);
             }
             100% {
                 transform: scale(1.08);
@@ -160,11 +159,6 @@
 
         .hero-slide.active .hero-image {
             animation: kenBurnsZoom 5s ease-out forwards;
-        }
-
-        .hero-slide:not(.active) .hero-image {
-            transform: scale(1);
-            animation: none;
         }
 
         .hero-overlay {
@@ -621,18 +615,12 @@
                 const isActive = i === index;
                 slide.classList.toggle('active', isActive);
                 
-                // アニメーションをリセット
-                const image = slide.querySelector('.hero-image');
                 if (isActive) {
                     // アクティブなスライドのアニメーションを再開
+                    const image = slide.querySelector('.hero-image');
                     image.style.animation = 'none';
-                    // 強制的にリフローを発生させてアニメーションをリセット
-                    image.offsetHeight;
+                    image.offsetHeight; // リフロー強制
                     image.style.animation = 'kenBurnsZoom 5s ease-out forwards';
-                } else {
-                    // 非アクティブなスライドはスケールを1に戻す
-                    image.style.animation = 'none';
-                    image.style.transform = 'scale(1)';
                 }
             });
         }
