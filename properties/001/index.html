@@ -1158,69 +1158,228 @@
                     </div>
                 </div>
                 
-                <h3 class="subsection-title">返済シミュレーション（5年間）</h3>
-                <table class="specs-table">
-                    <thead>
-                        <tr>
-                            <th>年</th>
-                            <th>月額返済</th>
-                            <th>元金</th>
-                            <th>利息</th>
-                            <th>年間返済額</th>
-                            <th>残元金</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1年目</td>
-                            <td style="text-align: right;">1,036,000円</td>
-                            <td style="text-align: right;">689,040円</td>
-                            <td style="text-align: right;">346,960円</td>
-                            <td style="text-align: right;">12,432,000円</td>
-                            <td style="text-align: right;">222,831,520円</td>
-                        </tr>
-                        <tr>
-                            <td>2年目</td>
-                            <td style="text-align: right;">1,036,000円</td>
-                            <td style="text-align: right;">699,179円</td>
-                            <td style="text-align: right;">336,821円</td>
-                            <td style="text-align: right;">12,432,000円</td>
-                            <td style="text-align: right;">214,441,392円</td>
-                        </tr>
-                        <tr>
-                            <td>3年目</td>
-                            <td style="text-align: right;">1,036,000円</td>
-                            <td style="text-align: right;">709,466円</td>
-                            <td style="text-align: right;">326,534円</td>
-                            <td style="text-align: right;">12,432,000円</td>
-                            <td style="text-align: right;">205,927,440円</td>
-                        </tr>
-                        <tr>
-                            <td>4年目</td>
-                            <td style="text-align: right;">1,036,000円</td>
-                            <td style="text-align: right;">719,907円</td>
-                            <td style="text-align: right;">316,093円</td>
-                            <td style="text-align: right;">12,432,000円</td>
-                            <td style="text-align: right;">197,288,976円</td>
-                        </tr>
-                        <tr>
-                            <td>5年目</td>
-                            <td style="text-align: right;">1,036,000円</td>
-                            <td style="text-align: right;">730,506円</td>
-                            <td style="text-align: right;">305,494円</td>
-                            <td style="text-align: right;">12,432,000円</td>
-                            <td style="text-align: right;">188,522,432円</td>
-                        </tr>
-                        <tr style="background: var(--primary-lighter);">
-                            <td><strong>5年累計</strong></td>
-                            <td style="text-align: right;"><strong>-</strong></td>
-                            <td style="text-align: right;"><strong>3,548,098円</strong></td>
-                            <td style="text-align: right;"><strong>1,631,902円</strong></td>
-                            <td style="text-align: right;"><strong>62,160,000円</strong></td>
-                            <td style="text-align: right;"><strong>188,522,432円</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h3 class="subsection-title">25年間返済計画</h3>
+                <div style="max-height: 400px; overflow-y: auto; border: 1px solid var(--gray-200); margin-bottom: 20px;">
+                    <table class="specs-table">
+                        <thead style="position: sticky; top: 0; background: white; z-index: 1;">
+                            <tr>
+                                <th>年</th>
+                                <th>月額返済</th>
+                                <th>年間元金</th>
+                                <th>年間利息</th>
+                                <th>累計元金</th>
+                                <th>残元金</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">9,067,200円</td>
+                                <td style="text-align: right;">3,364,800円</td>
+                                <td style="text-align: right;">9,067,200円</td>
+                                <td style="text-align: right;">221,932,800円</td>
+                            </tr>
+                            <tr>
+                                <td>2年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">9,203,308円</td>
+                                <td style="text-align: right;">3,228,692円</td>
+                                <td style="text-align: right;">18,270,508円</td>
+                                <td style="text-align: right;">212,729,492円</td>
+                            </tr>
+                            <tr>
+                                <td>3年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">9,343,357円</td>
+                                <td style="text-align: right;">3,088,643円</td>
+                                <td style="text-align: right;">27,613,865円</td>
+                                <td style="text-align: right;">203,386,135円</td>
+                            </tr>
+                            <tr>
+                                <td>4年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">9,487,412円</td>
+                                <td style="text-align: right;">2,944,588円</td>
+                                <td style="text-align: right;">37,101,277円</td>
+                                <td style="text-align: right;">193,898,723円</td>
+                            </tr>
+                            <tr style="background: var(--primary-lighter);">
+                                <td><strong>5年目</strong></td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;"><strong>9,635,543円</strong></td>
+                                <td style="text-align: right;">2,796,457円</td>
+                                <td style="text-align: right;"><strong>46,736,820円</strong></td>
+                                <td style="text-align: right;"><strong>184,263,180円</strong></td>
+                            </tr>
+                            <tr>
+                                <td>6年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">9,787,817円</td>
+                                <td style="text-align: right;">2,644,183円</td>
+                                <td style="text-align: right;">56,524,637円</td>
+                                <td style="text-align: right;">174,475,363円</td>
+                            </tr>
+                            <tr>
+                                <td>7年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">9,944,304円</td>
+                                <td style="text-align: right;">2,487,696円</td>
+                                <td style="text-align: right;">66,468,941円</td>
+                                <td style="text-align: right;">164,531,059円</td>
+                            </tr>
+                            <tr>
+                                <td>8年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">10,105,069円</td>
+                                <td style="text-align: right;">2,326,931円</td>
+                                <td style="text-align: right;">76,574,010円</td>
+                                <td style="text-align: right;">154,425,990円</td>
+                            </tr>
+                            <tr>
+                                <td>9年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">10,270,195円</td>
+                                <td style="text-align: right;">2,161,805円</td>
+                                <td style="text-align: right;">86,844,205円</td>
+                                <td style="text-align: right;">144,155,795円</td>
+                            </tr>
+                            <tr style="background: var(--primary-lighter);">
+                                <td><strong>10年目</strong></td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;"><strong>10,439,748円</strong></td>
+                                <td style="text-align: right;">1,992,252円</td>
+                                <td style="text-align: right;"><strong>97,283,953円</strong></td>
+                                <td style="text-align: right;"><strong>133,716,047円</strong></td>
+                            </tr>
+                            <tr>
+                                <td>11年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">10,613,904円</td>
+                                <td style="text-align: right;">1,818,096円</td>
+                                <td style="text-align: right;">107,897,857円</td>
+                                <td style="text-align: right;">123,102,143円</td>
+                            </tr>
+                            <tr>
+                                <td>12年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">10,792,743円</td>
+                                <td style="text-align: right;">1,639,257円</td>
+                                <td style="text-align: right;">118,690,600円</td>
+                                <td style="text-align: right;">112,309,400円</td>
+                            </tr>
+                            <tr>
+                                <td>13年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">10,976,435円</td>
+                                <td style="text-align: right;">1,455,565円</td>
+                                <td style="text-align: right;">129,667,035円</td>
+                                <td style="text-align: right;">101,332,965円</td>
+                            </tr>
+                            <tr>
+                                <td>14年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">11,165,162円</td>
+                                <td style="text-align: right;">1,266,838円</td>
+                                <td style="text-align: right;">140,832,197円</td>
+                                <td style="text-align: right;">90,167,803円</td>
+                            </tr>
+                            <tr style="background: var(--primary-lighter);">
+                                <td><strong>15年目</strong></td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;"><strong>11,359,115円</strong></td>
+                                <td style="text-align: right;">1,072,885円</td>
+                                <td style="text-align: right;"><strong>152,191,312円</strong></td>
+                                <td style="text-align: right;"><strong>78,808,688円</strong></td>
+                            </tr>
+                            <tr>
+                                <td>16年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">11,558,483円</td>
+                                <td style="text-align: right;">873,517円</td>
+                                <td style="text-align: right;">163,749,795円</td>
+                                <td style="text-align: right;">67,250,205円</td>
+                            </tr>
+                            <tr>
+                                <td>17年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">11,763,462円</td>
+                                <td style="text-align: right;">668,538円</td>
+                                <td style="text-align: right;">175,513,257円</td>
+                                <td style="text-align: right;">55,486,743円</td>
+                            </tr>
+                            <tr>
+                                <td>18年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">11,974,248円</td>
+                                <td style="text-align: right;">457,752円</td>
+                                <td style="text-align: right;">187,487,505円</td>
+                                <td style="text-align: right;">43,512,495円</td>
+                            </tr>
+                            <tr>
+                                <td>19年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">12,191,032円</td>
+                                <td style="text-align: right;">240,968円</td>
+                                <td style="text-align: right;">199,678,537円</td>
+                                <td style="text-align: right;">31,321,463円</td>
+                            </tr>
+                            <tr style="background: var(--primary-lighter);">
+                                <td><strong>20年目</strong></td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;"><strong>12,414,013円</strong></td>
+                                <td style="text-align: right;">17,987円</td>
+                                <td style="text-align: right;"><strong>212,092,550円</strong></td>
+                                <td style="text-align: right;"><strong>18,907,450円</strong></td>
+                            </tr>
+                            <tr>
+                                <td>21年目</td>
+                                <td style="text-align: right;">1,036,000円</td>
+                                <td style="text-align: right;">12,643,393円</td>
+                                <td style="text-align: right;">0円</td>
+                                <td style="text-align: right;">224,735,943円</td>
+                                <td style="text-align: right;">6,264,057円</td>
+                            </tr>
+                            <tr>
+                                <td>22年目</td>
+                                <td style="text-align: right;">525,304円</td>
+                                <td style="text-align: right;">6,264,057円</td>
+                                <td style="text-align: right;">39,605円</td>
+                                <td style="text-align: right;">231,000,000円</td>
+                                <td style="text-align: right;">0円</td>
+                            </tr>
+                            <tr style="background: var(--success-light);">
+                                <td><strong>完済</strong></td>
+                                <td style="text-align: center;"><strong>22年目で完済</strong></td>
+                                <td style="text-align: right;"><strong>231,000,000円</strong></td>
+                                <td style="text-align: right;"><strong>80,840,040円</strong></td>
+                                <td style="text-align: right;"><strong>231,000,000円</strong></td>
+                                <td style="text-align: right;"><strong>0円</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="background: var(--primary-lighter); padding: 20px; margin: 20px 0;">
+                    <h4 style="color: var(--primary-dark); margin-bottom: 15px;">返済計画サマリー</h4>
+                    <div class="property-overview">
+                        <div class="info-box">
+                            <h5>完済年数</h5>
+                            <span class="highlight-number">22年</span>
+                            <p>設定期間25年より3年早期完済</p>
+                        </div>
+                        <div class="info-box">
+                            <h5>総返済額</h5>
+                            <span class="highlight-number">3.118億円</span>
+                            <p>元金2.31億円＋利息8,084万円</p>
+                        </div>
+                        <div class="info-box">
+                            <h5>利息総額</h5>
+                            <span class="highlight-number">8,084万円</span>
+                            <p>元金に対する利息比率：35.0%</p>
+                        </div>
+                    </div>
+                </div>
                 
                 <h3 class="subsection-title">キャッシュフローカバーレシオ分析</h3>
                 <div class="property-overview">
