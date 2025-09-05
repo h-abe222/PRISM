@@ -1657,7 +1657,7 @@
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="btn btn-black" onclick="alert('資料パッケージをダウンロードしました')">全資料一括ダウンロード</button>
+                    <button class="btn btn-black" onclick="downloadPDF()">📄 完全レポートPDF版をダウンロード</button>
                     <button class="btn btn-outline-black" onclick="requestConsultation()">LINEで詳しく相談</button>
                 </div>
             </div>
@@ -2147,6 +2147,35 @@
             document.getElementById('customerType').value = 'closing';
             document.getElementById('currentCustomer').textContent = '成約前（高橋様）';
             document.getElementById('currentStageInfo').textContent = 'ステージ5';
+        });
+
+        // PDFダウンロード機能
+        function downloadPDF() {
+            // PDF生成のローディング表示
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '📄 PDF生成中...';
+            button.disabled = true;
+            
+            // 実際のPDFダウンロード処理
+            setTimeout(() => {
+                // サンプル用のPDFファイルをダウンロード
+                const link = document.createElement('a');
+                link.href = '/report_sample/南青山プリズムビル_完全投資レポート_PRISM.pdf';
+                link.download = '南青山プリズムビル_完全投資レポート_PRISM.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // ボタンを元に戻す
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // 成功メッセージ
+                alert('📄 完全レポートをダウンロードしました！\n\n内容：\n• 物件概要・収益分析\n• 融資シミュレーション(25年計画)\n• 価格査定・市場分析\n• 投資判断サマリー\n• 契約関連書類一式');
+            }, 2000);
+        }
+        
         });
     </script>
 </body>
