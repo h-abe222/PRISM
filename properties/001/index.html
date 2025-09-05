@@ -2137,7 +2137,7 @@
             document.getElementById('currentStageInfo').textContent = 'ステージ5';
         });
 
-        // PDFダウンロード機能（Vercel API経由）
+        // PDFダウンロード機能（完全版レポート用）
         async function downloadPDF(docType = 'complete') {
             // ボタンを取得
             const button = event.currentTarget || event.target.closest('button');
@@ -2146,58 +2146,22 @@
             // ローディング表示
             button.innerHTML = `
                 <span class="material-icons" style="animation: spin 1s linear infinite; margin-right: 8px;">sync</span>
-                PDF生成中...
+                ダウンロード中...
             `;
             button.disabled = true;
             
             try {
-                // 現在のステージとプロパティIDを取得
-                const propertyId = '001';
-                const stage = currentStage || 5;
-                
-                // PDF生成APIを呼び出し
-                const params = new URLSearchParams({
-                    propertyId: propertyId,
-                    docType: docType,
-                    stage: stage,
-                    forceRegenerate: false  // キャッシュを使用
-                });
-                
-                const response = await fetch(`https://prism-vip.vercel.app/api/generate-pdf?${params}`);
-                
-                if (response.ok) {
-                    // PDFダウンロード
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = `Minamiaoyama_PRISM_Building_${docType === 'complete' ? 'Complete_Investment_Report' : docType}.pdf`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                    
-                    // 成功メッセージ（オプション）
-                    // alert('PDFのダウンロードが完了しました');
-                } else {
-                    // エラー時はサンプルPDFにフォールバック
-                    console.error('PDF generation failed, using sample PDF');
-                    const link = document.createElement('a');
-                    link.href = '/report_sample/南青山プリズムビル_完全投資レポート_PRISM.pdf';
-                    link.download = '南青山プリズムビル_完全投資レポート_PRISM.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }
-            } catch (error) {
-                console.error('PDF download error:', error);
-                // エラー時はサンプルPDFにフォールバック
+                // 完全版レポートは現在サンプルPDFを使用
+                // TODO: 将来的にクライアントサイドで完全版レポートを生成
                 const link = document.createElement('a');
                 link.href = '/report_sample/南青山プリズムビル_完全投資レポート_PRISM.pdf';
                 link.download = '南青山プリズムビル_完全投資レポート_PRISM.pdf';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+            } catch (error) {
+                console.error('PDF download error:', error);
+                alert('PDFのダウンロードに失敗しました');
             } finally {
                 // ボタンを元に戻す
                 button.innerHTML = originalContent;
@@ -2205,62 +2169,84 @@
             }
         }
 
+        // スクリプトを動的に読み込む関数
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                if (document.querySelector(`script[src="${src}"]`)) {
+                    resolve();
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
         // 個別資料のダウンロード機能
         async function downloadDocument(documentType) {
             const button = event.currentTarget || event.target.closest('button');
             const originalText = button.innerHTML;
-            button.innerHTML = '<span class="material-icons" style="animation: spin 1s linear infinite; margin-right: 8px; font-size: 16px;">sync</span>ダウンロード中...';
+            button.innerHTML = '<span class="material-icons" style="animation: spin 1s linear infinite; margin-right: 8px; font-size: 16px;">sync</span>生成中...';
             button.disabled = true;
             
             try {
-                // APIエンドポイントへリクエスト
-                let response;
                 if (documentType === 'cashflow-simulation') {
-                    // CSVバージョンを使用
-                    response = await fetch(`/api/generate-cashflow-csv`);
-                } else {
-                    // シンプルPDF生成を使用
-                    response = await fetch(`/api/generate-simple-pdf?type=${documentType}`);
-                }
-                
-                if (response.ok) {
-                    const contentType = response.headers.get('content-type');
-                    const blob = await response.blob();
-                    
-                    // ファイル名を決定
-                    const fileExtension = contentType.includes('csv') ? 'csv' : 'pdf';
-                    const documentNames = {
-                        'property-overview': 'Property_Overview',
-                        'cashflow-simulation': 'Cashflow_Simulation',
-                        'loan-simulation': 'Loan_Proposal',
-                        'important-matters': 'Important_Matters',
-                        'sales-contract': 'Sales_Contract'
-                    };
-                    
-                    const fileName = `Minamiaoyama_PRISM_Building_${documentNames[documentType] || documentType}.${fileExtension}`;
-                    
-                    // ダウンロードリンクを作成
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
+                    // CSVジェネレーターを使用
+                    if (!window.CSVGenerator) {
+                        await loadScript('/js/csv-generator.js');
+                    }
+                    const csvGen = new CSVGenerator();
+                    const csvContent = csvGen.generateCashflowCSV();
+                    csvGen.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
                     
                     // 成功通知
-                    const messages = {
-                        'property-overview': '物件概要書（詳細版）をダウンロードしました',
-                        'cashflow-simulation': '10年間収支シミュレーション（Excel）をダウンロードしました',
-                        'loan-simulation': '融資提案書をダウンロードしました',
-                        'important-matters': '重要事項説明書（案）をダウンロードしました',
-                        'sales-contract': '売買契約書（案）をダウンロードしました'
-                    };
-                    
-                    alert(messages[documentType] || 'ドキュメントをダウンロードしました');
+                    alert('10年間収支シミュレーション（CSV）をダウンロードしました');
                 } else {
-                    throw new Error('ダウンロードに失敗しました');
+                    // PDFジェネレーターを使用
+                    if (!window.PDFGenerator) {
+                        await loadScript('/js/pdf-generator.js');
+                    }
+                    
+                    // 少し待機（jsPDFの読み込み完了を待つ）
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    const pdfGen = new PDFGenerator();
+                    let doc;
+                    let fileName;
+                    let message;
+                    
+                    switch(documentType) {
+                        case 'property-overview':
+                            doc = await pdfGen.generatePropertyOverview();
+                            fileName = 'Minamiaoyama_PRISM_Building_Property_Overview.pdf';
+                            message = '物件概要書（詳細版）をダウンロードしました';
+                            break;
+                        case 'loan-simulation':
+                            doc = await pdfGen.generateLoanProposal();
+                            fileName = 'Minamiaoyama_PRISM_Building_Loan_Proposal.pdf';
+                            message = '融資提案書をダウンロードしました';
+                            break;
+                        case 'important-matters':
+                            doc = await pdfGen.generateImportantMatters();
+                            fileName = 'Minamiaoyama_PRISM_Building_Important_Matters.pdf';
+                            message = '重要事項説明書（案）をダウンロードしました';
+                            break;
+                        case 'sales-contract':
+                            doc = await pdfGen.generateSalesContract();
+                            fileName = 'Minamiaoyama_PRISM_Building_Sales_Contract.pdf';
+                            message = '売買契約書（案）をダウンロードしました';
+                            break;
+                        default:
+                            throw new Error('不明なドキュメントタイプ: ' + documentType);
+                    }
+                    
+                    // PDFをダウンロード
+                    pdfGen.downloadPDF(doc, fileName);
+                    
+                    // 成功通知
+                    alert(message);
                 }
             } catch (error) {
                 console.error('Download error:', error);
@@ -2290,48 +2276,58 @@
             let successCount = 0;
             let failCount = 0;
             
+            // スクリプトを先に読み込む
+            if (!window.PDFGenerator) {
+                await loadScript('/js/pdf-generator.js');
+            }
+            if (!window.CSVGenerator) {
+                await loadScript('/js/csv-generator.js');
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000)); // jsPDF読み込み待機
+            
             for (const type of documentTypes) {
                 try {
-                    // 少し遅延を入れてサーバー負荷を軽減
+                    // 少し遅延を入れて処理を分散
                     await new Promise(resolve => setTimeout(resolve, 500));
                     
                     if (type === 'complete') {
                         // PRISM価値評価レポートのダウンロード
                         await downloadPDF('complete');
                         successCount++;
+                    } else if (type === 'cashflow-simulation') {
+                        // CSVジェネレーターを使用
+                        const csvGen = new CSVGenerator();
+                        const csvContent = csvGen.generateCashflowCSV();
+                        csvGen.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
+                        successCount++;
                     } else {
-                        // その他のドキュメント
-                        let response;
-                        if (type === 'cashflow-simulation') {
-                            response = await fetch(`/api/generate-cashflow-csv`);
-                        } else {
-                            response = await fetch(`/api/generate-simple-pdf?type=${type}`);
+                        // PDFジェネレーターを使用
+                        const pdfGen = new PDFGenerator();
+                        let doc;
+                        let fileName;
+                        
+                        switch(type) {
+                            case 'property-overview':
+                                doc = await pdfGen.generatePropertyOverview();
+                                fileName = 'Minamiaoyama_PRISM_Building_Property_Overview.pdf';
+                                break;
+                            case 'loan-simulation':
+                                doc = await pdfGen.generateLoanProposal();
+                                fileName = 'Minamiaoyama_PRISM_Building_Loan_Proposal.pdf';
+                                break;
+                            case 'important-matters':
+                                doc = await pdfGen.generateImportantMatters();
+                                fileName = 'Minamiaoyama_PRISM_Building_Important_Matters.pdf';
+                                break;
+                            case 'sales-contract':
+                                doc = await pdfGen.generateSalesContract();
+                                fileName = 'Minamiaoyama_PRISM_Building_Sales_Contract.pdf';
+                                break;
                         }
-                        if (response.ok) {
-                            const contentType = response.headers.get('content-type');
-                            const blob = await response.blob();
-                            const fileExtension = contentType.includes('csv') ? 'csv' : 'pdf';
-                            const typeNames = {
-                                'property-overview': 'Property_Overview',
-                                'cashflow-simulation': 'Cashflow_Simulation', 
-                                'loan-simulation': 'Loan_Proposal',
-                                'important-matters': 'Important_Matters',
-                                'sales-contract': 'Sales_Contract'
-                            };
-                            const fileName = `Minamiaoyama_PRISM_Building_${typeNames[type] || type}.${fileExtension}`;
-                            
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = fileName;
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            window.URL.revokeObjectURL(url);
-                            
+                        
+                        if (doc) {
+                            pdfGen.downloadPDF(doc, fileName);
                             successCount++;
-                        } else {
-                            failCount++;
                         }
                     }
                 } catch (error) {
