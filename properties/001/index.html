@@ -1574,9 +1574,10 @@
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 物件概要書（詳細版）
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 物件の基本情報、立地条件、建物仕様、レントロールを記載した詳細な概要書です。
                             </p>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('property-overview')" style="width: 100%; font-size: 0.9em;">📋 ダウンロード</button>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
@@ -1596,18 +1597,20 @@
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 10年間収支シミュレーション
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 Excelファイルで編集可能なキャッシュフロー予測。賃料上昇、空室率などのパラメータを変更してシナリオ分析が可能です。
                             </p>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('cashflow-simulation')" style="width: 100%; font-size: 0.9em;">📈 Excelダウンロード</button>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 融資シミュレーション
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6;">
-                                推奨金融機関での融資条件、返済シミュレーション、必要書類の一覧を記載した融資提案書です。
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                                推奨金融機関での融資条件、25年返済シミュレーション、必要書類の一覧を記載した融資提案書です。
                             </p>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('loan-simulation')" style="width: 100%; font-size: 0.9em;">🏦 ダウンロード</button>
                         </div>
                     </div>
                     
@@ -1617,18 +1620,20 @@
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 重要事項説明書（案）
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 不動産取引における重要事項をまとめた法的書類です。取引前に必ずご確認ください。
                             </p>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('important-matters')" style="width: 100%; font-size: 0.9em;">📄 ダウンロード</button>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 売買契約書（案）
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 本物件の売買契約書のドラフト版です。実際の契約時には最新情報で更新されます。
                             </p>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('sales-contract')" style="width: 100%; font-size: 0.9em;">📜 ダウンロード</button>
                         </div>
                     </div>
                 </div>
@@ -1659,7 +1664,7 @@
                 
                 <div class="action-buttons">
                     <button class="btn btn-black" onclick="requestConsultation()">LINEで詳しく相談</button>
-                    <button class="btn btn-outline-black" onclick="alert('資料パッケージをダウンロードしました')">全資料一括ダウンロード</button>
+                    <button class="btn btn-outline-black" onclick="downloadAllDocuments()">📦 全資料一括ダウンロード</button>
                 </div>
             </div>
         </div>
@@ -2176,6 +2181,98 @@
                 alert('📄 完全レポートをダウンロードしました！\n\n内容：\n• 物件概要・収益分析\n• 融資シミュレーション(25年計画)\n• 価格査定・市場分析\n• 投資判断サマリー\n• 契約関連書類一式');
             }, 2000);
         }
-    </script>
+
+        // 個別資料のダウンロード機能
+        function downloadDocument(documentType) {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ ダウンロード中...';
+            button.disabled = true;
+            
+            // ドキュメントタイプ別の情報
+            const documentInfo = {
+                'property-overview': {
+                    filename: '南青山プリズムビル_物件概要書_詳細版.pdf',
+                    message: '📋 物件概要書（詳細版）をダウンロードしました！\n\n内容：\n• 物件基本情報\n• 立地・交通条件\n• 建物仕様・設備\n• レントロール詳細'
+                },
+                'cashflow-simulation': {
+                    filename: '南青山プリズムビル_10年間収支シミュレーション.xlsx',
+                    message: '📊 10年間収支シミュレーションをダウンロードしました！\n\n内容：\n• Excel編集可能ファイル\n• 賃料上昇率シナリオ分析\n• 空室率変動シミュレーション\n• IRR・NPV自動計算'
+                },
+                'loan-simulation': {
+                    filename: '南青山プリズムビル_融資提案書_25年返済計画.pdf',
+                    message: '🏦 融資提案書をダウンロードしました！\n\n内容：\n• 推奨金融機関一覧\n• 25年返済シミュレーション\n• 必要書類チェックリスト\n• 属性別融資条件'
+                },
+                'important-matters': {
+                    filename: '南青山プリズムビル_重要事項説明書案.pdf',
+                    message: '📄 重要事項説明書（案）をダウンロードしました！\n\n内容：\n• 法的重要事項\n• 物件瑕疵情報\n• 権利関係詳細\n• 取引条件'
+                },
+                'sales-contract': {
+                    filename: '南青山プリズムビル_売買契約書案.pdf',
+                    message: '📜 売買契約書（案）をダウンロードしました！\n\n内容：\n• 契約条件詳細\n• 特約事項\n• 決済条件\n• 引渡し条件'
+                }
+            };
+            
+            setTimeout(() => {
+                const info = documentInfo[documentType];
+                
+                // ダウンロード処理（サンプル）
+                const link = document.createElement('a');
+                link.href = `/report_sample/${info.filename}`;
+                link.download = info.filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // ボタンを元に戻す
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // 成功メッセージ
+                alert(info.message);
+            }, 1500);
+        }
+
+        // 一括ダウンロード機能
+        function downloadAllDocuments() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '📦 一括ダウンロード中...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                // 全資料をダウンロード
+                const documents = [
+                    '南青山プリズムビル_完全投資レポート_PRISM.pdf',
+                    '南青山プリズムビル_物件概要書_詳細版.pdf',
+                    '南青山プリズムビル_10年間収支シミュレーション.xlsx',
+                    '南青山プリズムビル_融資提案書_25年返済計画.pdf',
+                    '南青山プリズムビル_重要事項説明書案.pdf',
+                    '南青山プリズムビル_売買契約書案.pdf'
+                ];
+                
+                documents.forEach((filename, index) => {
+                    setTimeout(() => {
+                        const link = document.createElement('a');
+                        link.href = `/report_sample/${filename}`;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }, index * 500);
+                });
+                
+                // ボタンを元に戻す
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    
+                    // 成功メッセージ
+                    alert('📦 全資料（6ファイル）のダウンロードが完了しました！\n\n• PRISM価値評価レポート（PDF）\n• 物件概要書詳細版（PDF）\n• 10年間収支シミュレーション（Excel）\n• 融資提案書25年計画（PDF）\n• 重要事項説明書案（PDF）\n• 売買契約書案（PDF）');
+                }, 3000);
+                
+            }, 1000);
+        }
+        
 </body>
 </html>
