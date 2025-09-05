@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>南青山プリズムビル - 投資家向け段階的提案システム</title>
     <link rel="stylesheet" href="/assets/css/common.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .member-header {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
@@ -632,7 +633,7 @@
             </div>
             <div class="member-info">
                 <span class="member-name" id="memberName">VIP会員様</span>
-                <button id="adminToggle" onclick="toggleAdminMode()" class="btn-logout" style="margin-right: 10px;">🔧 管理者</button>
+                <button id="adminToggle" onclick="toggleAdminMode()" class="btn-logout" style="margin-right: 10px;"><span class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 18px;">settings</span>管理者</button>
                 <a href="/" class="btn-logout" onclick="logout()">ログアウト</a>
             </div>
         </div>
@@ -644,7 +645,7 @@
     <!-- 管理者パネル -->
     <div id="adminPanel" style="display: none; position: fixed; top: 80px; right: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); width: 320px; z-index: 1000; max-height: 80vh; overflow-y: auto;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin: 0; color: var(--primary-dark);">🔧 管理者コントロール</h3>
+            <h3 style="margin: 0; color: var(--primary-dark);"><span class="material-icons" style="vertical-align: middle; margin-right: 8px;">settings</span>管理者コントロール</h3>
             <button onclick="closeAdminPanel()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; color: var(--gray-500);">×</button>
         </div>
         
@@ -1577,7 +1578,7 @@
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 物件の基本情報、立地条件、建物仕様、レントロールを記載した詳細な概要書です。
                             </p>
-                            <button class="btn btn-outline-black" onclick="downloadDocument('property-overview')" style="width: 100%; font-size: 0.9em;">📋 ダウンロード</button>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('property-overview')" style="width: 100%; font-size: 0.9em;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">description</span>ダウンロード</button>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
@@ -1587,7 +1588,7 @@
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 本レポートの完全版（30ページ）。公的評価、担保評価、DCF分析、25年融資計画などを含む総合的な投資判断資料です。
                             </p>
-                            <button class="btn btn-black" onclick="downloadPDF()" style="width: 100%; font-size: 0.9em;">📄 PDF版をダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadPDF()" style="width: 100%; font-size: 0.9em;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">picture_as_pdf</span>PDF版をダウンロード</button>
                         </div>
                     </div>
                     
@@ -1600,7 +1601,7 @@
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 Excelファイルで編集可能なキャッシュフロー予測。賃料上昇、空室率などのパラメータを変更してシナリオ分析が可能です。
                             </p>
-                            <button class="btn btn-outline-black" onclick="downloadDocument('cashflow-simulation')" style="width: 100%; font-size: 0.9em;">📈 Excelダウンロード</button>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('cashflow-simulation')" style="width: 100%; font-size: 0.9em;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">table_chart</span>Excelダウンロード</button>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
@@ -1610,7 +1611,7 @@
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 推奨金融機関での融資条件、25年返済シミュレーション、必要書類の一覧を記載した融資提案書です。
                             </p>
-                            <button class="btn btn-outline-black" onclick="downloadDocument('loan-simulation')" style="width: 100%; font-size: 0.9em;">🏦 ダウンロード</button>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('loan-simulation')" style="width: 100%; font-size: 0.9em;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">account_balance</span>ダウンロード</button>
                         </div>
                     </div>
                     
@@ -1623,7 +1624,7 @@
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 不動産取引における重要事項をまとめた法的書類です。取引前に必ずご確認ください。
                             </p>
-                            <button class="btn btn-outline-black" onclick="downloadDocument('important-matters')" style="width: 100%; font-size: 0.9em;">📄 ダウンロード</button>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('important-matters')" style="width: 100%; font-size: 0.9em;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">gavel</span>ダウンロード</button>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
@@ -1633,7 +1634,7 @@
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
                                 本物件の売買契約書のドラフト版です。実際の契約時には最新情報で更新されます。
                             </p>
-                            <button class="btn btn-outline-black" onclick="downloadDocument('sales-contract')" style="width: 100%; font-size: 0.9em;">📜 ダウンロード</button>
+                            <button class="btn btn-outline-black" onclick="downloadDocument('sales-contract')" style="width: 100%; font-size: 0.9em;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">contract</span>ダウンロード</button>
                         </div>
                     </div>
                 </div>
@@ -1664,7 +1665,7 @@
                 
                 <div class="action-buttons">
                     <button class="btn btn-black" onclick="requestConsultation()">LINEで詳しく相談</button>
-                    <button class="btn btn-outline-black" onclick="downloadAllDocuments()">📦 全資料一括ダウンロード</button>
+                    <button class="btn btn-outline-black" onclick="downloadAllDocuments()"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 20px;">download</span>全資料一括ダウンロード</button>
                 </div>
             </div>
         </div>
@@ -1841,7 +1842,7 @@
                 adminPanel.style.display = 'block';
                 adminOverlay.style.display = 'block';
                 adminBtn.style.background = 'var(--primary-light)';
-                adminBtn.innerHTML = '🔧 管理者（ON）';
+                adminBtn.innerHTML = '<span class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 18px;">settings</span>管理者（ON）';
                 unlockContent(); // 管理者モード時は全タブアンロック
                 
                 // モバイルでのスクロール防止
@@ -1852,7 +1853,7 @@
                 adminPanel.style.display = 'none';
                 adminOverlay.style.display = 'none';
                 adminBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-                adminBtn.innerHTML = '🔧 管理者';
+                adminBtn.innerHTML = '<span class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 18px;">settings</span>管理者';
                 unlockContent(); // 通常モードに戻す
                 document.body.style.overflow = '';
             }
@@ -1868,7 +1869,7 @@
             adminPanel.style.display = 'none';
             adminOverlay.style.display = 'none';
             adminBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-            adminBtn.innerHTML = '🔧 管理者';
+            adminBtn.innerHTML = '<span class="material-icons" style="vertical-align: middle; margin-right: 5px; font-size: 18px;">settings</span>管理者';
             unlockContent(); // 通常モードに戻す
             document.body.style.overflow = '';
         }
@@ -2160,7 +2161,7 @@
             // PDF生成のローディング表示
             const button = event.target;
             const originalText = button.innerHTML;
-            button.innerHTML = '📄 PDF生成中...';
+            button.innerHTML = 'PDF生成中...';
             button.disabled = true;
             
             // 実際のPDFダウンロード処理
@@ -2178,7 +2179,7 @@
                 button.disabled = false;
                 
                 // 成功メッセージ
-                alert('📄 完全レポートをダウンロードしました！\n\n内容：\n• 物件概要・収益分析\n• 融資シミュレーション(25年計画)\n• 価格査定・市場分析\n• 投資判断サマリー\n• 契約関連書類一式');
+                alert('完全レポートをダウンロードしました\n\n内容：\n• 物件概要・収益分析\n• 融資シミュレーション(25年計画)\n• 価格査定・市場分析\n• 投資判断サマリー\n• 契約関連書類一式');
             }, 2000);
         }
 
@@ -2186,18 +2187,18 @@
         function downloadDocument(documentType) {
             const button = event.target;
             const originalText = button.innerHTML;
-            button.innerHTML = '⏳ ダウンロード中...';
+            button.innerHTML = 'ダウンロード中...';
             button.disabled = true;
             
             // ドキュメントタイプ別の情報
             const documentInfo = {
                 'property-overview': {
                     filename: '南青山プリズムビル_物件概要書_詳細版.pdf',
-                    message: '📋 物件概要書（詳細版）をダウンロードしました！\n\n内容：\n• 物件基本情報\n• 立地・交通条件\n• 建物仕様・設備\n• レントロール詳細'
+                    message: '物件概要書（詳細版）をダウンロードしました\n\n内容：\n• 物件基本情報\n• 立地・交通条件\n• 建物仕様・設備\n• レントロール詳細'
                 },
                 'cashflow-simulation': {
                     filename: '南青山プリズムビル_10年間収支シミュレーション.xlsx',
-                    message: '📊 10年間収支シミュレーションをダウンロードしました！\n\n内容：\n• Excel編集可能ファイル\n• 賃料上昇率シナリオ分析\n• 空室率変動シミュレーション\n• IRR・NPV自動計算'
+                    message: '10年間収支シミュレーションをダウンロードしました\n\n内容：\n• Excel編集可能ファイル\n• 賃料上昇率シナリオ分析\n• 空室率変動シミュレーション\n• IRR・NPV自動計算'
                 },
                 'loan-simulation': {
                     filename: '南青山プリズムビル_融資提案書_25年返済計画.pdf',
@@ -2237,7 +2238,7 @@
         function downloadAllDocuments() {
             const button = event.target;
             const originalText = button.innerHTML;
-            button.innerHTML = '📦 一括ダウンロード中...';
+            button.innerHTML = '一括ダウンロード中...';
             button.disabled = true;
             
             setTimeout(() => {
