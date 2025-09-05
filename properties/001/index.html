@@ -2351,17 +2351,29 @@
         }
     </script>
     
-    <!-- クライアントサイドPDF生成ライブラリ -->
+    <!-- クライアントサイドPDF/CSV生成ライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="/js/pdf-generator.js"></script>
+    <script src="/js/csv-generator.js"></script>
     
     <script>
-        // PDF生成インスタンスを初期化
-        const pdfGenerator = new PDFGenerator();
+        // jsPDFが読み込まれるまで待機
+        window.addEventListener('DOMContentLoaded', async function() {
+            // PDF/CSV生成インスタンスを初期化
+            let pdfGenerator;
+            let csvGenerator;
+            try {
+                pdfGenerator = new PDFGenerator();
+                csvGenerator = new CSVGenerator();
+                await pdfGenerator.loadJsPDF();
+                console.log('Generators initialized');
+            } catch (error) {
+                console.error('Generator initialization failed:', error);
+            }
         
-        // 既存のdownloadDocument関数を上書き
-        window.downloadDocument = async function(documentType) {
+        // downloadDocument関数を再定義（既存の関数を上書き）
+        async function downloadDocument(documentType) {
             const button = event.currentTarget || event.target.closest('button');
             const originalText = button.innerHTML;
             button.innerHTML = '<span class="material-icons" style="animation: spin 1s linear infinite; margin-right: 8px; font-size: 16px;">sync</span>生成中...';
@@ -2390,19 +2402,9 @@
                         filename = 'Minamiaoyama_PRISM_Building_Sales_Contract.pdf';
                         break;
                     case 'cashflow-simulation':
-                        // CSVダウンロード（既存のAPI使用）
-                        const response = await fetch('/api/generate-cashflow-csv');
-                        if (response.ok) {
-                            const blob = await response.blob();
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv';
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            window.URL.revokeObjectURL(url);
-                        }
+                        // CSVダウンロード（クライアントサイド生成）
+                        const csvContent = csvGenerator.generateCashflowCSV();
+                        csvGenerator.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
                         break;
                     default:
                         throw new Error('Unknown document type');
@@ -2433,7 +2435,11 @@
                 button.innerHTML = originalText;
                 button.disabled = false;
             }
-        };
+        }
+            
+            // グローバルに関数を公開
+            window.downloadDocument = downloadDocument;
+        });
     </script>
 </body>
 </html>
