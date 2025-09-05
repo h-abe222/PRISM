@@ -2213,15 +2213,22 @@
             button.disabled = true;
             
             try {
-                // APIエンドポイントへリクエスト（日本語対応版）
-                const response = await fetch(`/api/download-document-v2?type=${documentType}`);
+                // APIエンドポイントへリクエスト
+                let response;
+                if (documentType === 'cashflow-simulation') {
+                    // CSVバージョンを使用
+                    response = await fetch(`/api/generate-cashflow-csv`);
+                } else {
+                    // シンプルPDF生成を使用
+                    response = await fetch(`/api/generate-simple-pdf?type=${documentType}`);
+                }
                 
                 if (response.ok) {
                     const contentType = response.headers.get('content-type');
                     const blob = await response.blob();
                     
                     // ファイル名を決定
-                    const fileExtension = contentType.includes('excel') || contentType.includes('spreadsheet') ? 'xlsx' : 'pdf';
+                    const fileExtension = contentType.includes('csv') ? 'csv' : 'pdf';
                     const documentNames = {
                         'property-overview': '物件概要書_詳細版',
                         'cashflow-simulation': '10年間収支シミュレーション',
@@ -2293,12 +2300,17 @@
                         await downloadPDF('complete');
                         successCount++;
                     } else {
-                        // その他のドキュメント（日本語対応版API）
-                        const response = await fetch(`/api/download-document-v2?type=${type}`);
+                        // その他のドキュメント
+                        let response;
+                        if (type === 'cashflow-simulation') {
+                            response = await fetch(`/api/generate-cashflow-csv`);
+                        } else {
+                            response = await fetch(`/api/generate-simple-pdf?type=${type}`);
+                        }
                         if (response.ok) {
                             const contentType = response.headers.get('content-type');
                             const blob = await response.blob();
-                            const fileExtension = contentType.includes('excel') || contentType.includes('spreadsheet') ? 'xlsx' : 'pdf';
+                            const fileExtension = contentType.includes('csv') ? 'csv' : 'pdf';
                             const fileName = `南青山プリズムビル_${type}.${fileExtension}`;
                             
                             const url = window.URL.createObjectURL(blob);

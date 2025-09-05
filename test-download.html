@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ダウンロードテスト</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #0052a3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>ダウンロードAPIテスト</h1>
+    
+    <h2>1. シンプルテスト</h2>
+    <button onclick="testSimple()">シンプルAPIテスト</button>
+    
+    <h2>2. 各ドキュメントテスト</h2>
+    <button onclick="testDocument('property-overview')">物件概要書</button>
+    <button onclick="testDocument('loan-simulation')">融資提案書</button>
+    <button onclick="testDocument('cashflow-simulation')">収支シミュレーション</button>
+    
+    <h2>3. PDF生成テスト</h2>
+    <button onclick="testPDF()">PRISM価値評価レポート</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        async function testSimple() {
+            try {
+                resultDiv.textContent = 'テスト中...';
+                const response = await fetch('/api/simple-download?type=test');
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultDiv.textContent = 'エラー: ' + error.message;
+            }
+        }
+        
+        async function testDocument(type) {
+            try {
+                resultDiv.textContent = `${type} ダウンロード中...`;
+                
+                // まず新しいAPIをテスト
+                const response = await fetch(`/api/download-document-v2?type=${type}`);
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    resultDiv.textContent = `成功: ${blob.size} バイト受信\nContent-Type: ${response.headers.get('content-type')}`;
+                    
+                    // ダウンロード
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `test_${type}.pdf`;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    const text = await response.text();
+                    resultDiv.textContent = `エラー ${response.status}: ${text}`;
+                }
+            } catch (error) {
+                resultDiv.textContent = `エラー: ${error.message}\n${error.stack}`;
+            }
+        }
+        
+        async function testPDF() {
+            try {
+                resultDiv.textContent = 'PDF生成中...';
+                const response = await fetch('/api/generate-pdf?propertyId=001&docType=complete');
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    resultDiv.textContent = `成功: ${blob.size} バイト受信`;
+                    
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'test_complete_report.pdf';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    const text = await response.text();
+                    resultDiv.textContent = `エラー ${response.status}: ${text}`;
+                }
+            } catch (error) {
+                resultDiv.textContent = `エラー: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
