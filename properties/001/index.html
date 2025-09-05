@@ -2350,5 +2350,90 @@
             }
         }
     </script>
+    
+    <!-- クライアントサイドPDF生成ライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="/js/pdf-generator.js"></script>
+    
+    <script>
+        // PDF生成インスタンスを初期化
+        const pdfGenerator = new PDFGenerator();
+        
+        // 既存のdownloadDocument関数を上書き
+        window.downloadDocument = async function(documentType) {
+            const button = event.currentTarget || event.target.closest('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="material-icons" style="animation: spin 1s linear infinite; margin-right: 8px; font-size: 16px;">sync</span>生成中...';
+            button.disabled = true;
+            
+            try {
+                let doc;
+                let filename;
+                
+                // ドキュメントタイプに応じてPDFを生成
+                switch(documentType) {
+                    case 'property-overview':
+                        doc = await pdfGenerator.generatePropertyOverview();
+                        filename = 'Minamiaoyama_PRISM_Building_Property_Overview.pdf';
+                        break;
+                    case 'loan-simulation':
+                        doc = await pdfGenerator.generateLoanProposal();
+                        filename = 'Minamiaoyama_PRISM_Building_Loan_Proposal.pdf';
+                        break;
+                    case 'important-matters':
+                        doc = await pdfGenerator.generateImportantMatters();
+                        filename = 'Minamiaoyama_PRISM_Building_Important_Matters.pdf';
+                        break;
+                    case 'sales-contract':
+                        doc = await pdfGenerator.generateSalesContract();
+                        filename = 'Minamiaoyama_PRISM_Building_Sales_Contract.pdf';
+                        break;
+                    case 'cashflow-simulation':
+                        // CSVダウンロード（既存のAPI使用）
+                        const response = await fetch('/api/generate-cashflow-csv');
+                        if (response.ok) {
+                            const blob = await response.blob();
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            window.URL.revokeObjectURL(url);
+                        }
+                        break;
+                    default:
+                        throw new Error('Unknown document type');
+                }
+                
+                // PDFをダウンロード
+                if (doc) {
+                    pdfGenerator.downloadPDF(doc, filename);
+                }
+                
+                // 成功通知
+                const messages = {
+                    'property-overview': '物件概要書をダウンロードしました',
+                    'cashflow-simulation': '収支シミュレーション（CSV）をダウンロードしました',
+                    'loan-simulation': '融資提案書をダウンロードしました',
+                    'important-matters': '重要事項説明書をダウンロードしました',
+                    'sales-contract': '売買契約書をダウンロードしました'
+                };
+                
+                setTimeout(() => {
+                    alert(messages[documentType] || 'ドキュメントをダウンロードしました');
+                }, 100);
+                
+            } catch (error) {
+                console.error('Generate error:', error);
+                alert('ドキュメント生成に失敗しました: ' + error.message);
+            } finally {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        };
+    </script>
 </body>
 </html>
