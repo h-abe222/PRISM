@@ -2213,8 +2213,8 @@
             button.disabled = true;
             
             try {
-                // APIエンドポイントへリクエスト
-                const response = await fetch(`/api/download-document?type=${documentType}`);
+                // APIエンドポイントへリクエスト（日本語対応版）
+                const response = await fetch(`/api/download-document-v2?type=${documentType}`);
                 
                 if (response.ok) {
                     const contentType = response.headers.get('content-type');
@@ -2293,8 +2293,8 @@
                         await downloadPDF('complete');
                         successCount++;
                     } else {
-                        // その他のドキュメント
-                        const response = await fetch(`/api/download-document?type=${type}`);
+                        // その他のドキュメント（日本語対応版API）
+                        const response = await fetch(`/api/download-document-v2?type=${type}`);
                         if (response.ok) {
                             const contentType = response.headers.get('content-type');
                             const blob = await response.blob();

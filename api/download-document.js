@@ -1,18 +1,100 @@
 // PRISM 各種ドキュメントダウンロード用APIエンドポイント
 
-const fs = require('fs').promises;
-const path = require('path');
-const PDFDocument = require('pdfkit');
+const chromium = require('@sparticuz/chromium');
+const puppeteer = require('puppeteer-core');
 const ExcelJS = require('exceljs');
 
-// ドキュメント生成関数
-const documentGenerators = {
-    // 物件概要書（詳細版）
-    'property-overview': async () => {
-        const doc = new PDFDocument({
-            size: 'A4',
-            margins: { top: 50, bottom: 50, left: 50, right: 50 }
-        });
+// HTML生成関数
+const generateHTML = (type, data) => {
+    const templates = {
+        'property-overview': `
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: A4; margin: 20mm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            line-height: 1.8;
+            color: #333;
+        }
+        h1 { 
+            color: #0066CC;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #0066CC;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #0066CC;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .info-table th {
+            background: #f0f8ff;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            width: 30%;
+        }
+        .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .footer {
+            position: fixed;
+            bottom: 10mm;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>物件概要書（詳細版）</h1>
+    <p style="text-align: center; font-size: 18px; margin-bottom: 30px;">南青山プリズムビル</p>
+    
+    <h2>1. 物件基本情報</h2>
+    <table class="info-table">
+        <tr><th>物件名称</th><td>南青山プリズムビル</td></tr>
+        <tr><th>所在地</th><td>東京都港区南青山5-10-5</td></tr>
+        <tr><th>交通アクセス</th><td>東京メトロ銀座線・半蔵門線・千代田線「表参道」駅 徒歩3分<br>JR山手線・埼京線・湘南新宿ライン「渋谷」駅 徒歩8分</td></tr>
+        <tr><th>竣工年月</th><td>2019年3月（築5年）</td></tr>
+        <tr><th>構造・規模</th><td>鉄骨鉄筋コンクリート造 地上8階建</td></tr>
+        <tr><th>敷地面積</th><td>234.56㎡（70.95坪）</td></tr>
+        <tr><th>建物延床面積</th><td>1,234.56㎡（373.45坪）</td></tr>
+        <tr><th>建ぺい率・容積率</th><td>80% / 700%</td></tr>
+        <tr><th>用途地域</th><td>商業地域</td></tr>
+        <tr><th>駐車場</th><td>機械式駐車場6台</td></tr>
+    </table>
+    
+    <h2>2. 立地・環境</h2>
+    <p>表参道・青山エリアの中心部に位置し、周辺には高級ブランドショップ、おしゃれなカフェ・レストラン、クリエイティブ企業のオフィスが集積。都内屈指のブランド力を持つエリアで、安定した賃貸需要が見込めます。</p>
+    
+    <h3 style="font-size: 16px; margin-top: 20px;">主要施設までの距離</h3>
+    <ul style="margin-left: 20px;">
+        <li>表参道ヒルズ: 徒歩5分</li>
+        <li>青山学院大学: 徒歩7分</li>
+        <li>ブルーノート東京: 徒歩3分</li>
+        <li>根津美術館: 徒歩8分</li>
+        <li>明治神宮外苑: 徒歩10分</li>
+    </ul>
+    
+    <div class="footer">PRISM VIP - 物件概要書</div>
+</body>
+</html>
+        `,
         
         const chunks = [];
         doc.on('data', chunk => chunks.push(chunk));
