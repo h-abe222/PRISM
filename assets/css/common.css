@@ -38,6 +38,9 @@ body {
     --gray-500: #4a5568;
     --gray-600: #2d3748;
     
+    /* ブラック */
+    --primary-black: #000000;
+    
     /* その他 */
     --danger: #e53e3e;
     --warning: #ed8936;
