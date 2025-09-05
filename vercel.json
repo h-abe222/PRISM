@@ -1,7 +1,18 @@
 {
-  "name": "prism-vip",
   "version": 2,
+  "alias": "prism-vip.vercel.app",
   "buildCommand": "",
   "outputDirectory": "./",
-  "framework": null
+  "framework": null,
+  "functions": {
+    "api/generate-pdf.js": {
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/generate-pdf",
+      "destination": "/api/generate-pdf-simple.js"
+    }
+  ]
 }

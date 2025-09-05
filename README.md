@@ -6,6 +6,8 @@
 ## 🌐 Live Site
 **[https://prism-vip.vercel.app/](https://prism-vip.vercel.app/)**
 
+⚠️ **重要**: 必ずこのURLを使用してください。他のURL（prism-vip-chi.vercel.appなど）は使用しないでください。
+
 ## 📋 概要
 PRISMは、厳選された不動産投資情報を段階的に開示する、VIP投資家向けのプラットフォームです。
 
