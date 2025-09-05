@@ -1570,78 +1570,78 @@
                 <h3 class="subsection-title">ダウンロード可能資料</h3>
                 <div style="background: var(--gray-50); padding: 30px;">
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
-                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 物件概要書（詳細版）
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
                                 物件の基本情報、立地条件、建物仕様、レントロールを記載した詳細な概要書です。
                             </p>
-                            <button class="btn btn-black" onclick="downloadDocument('property-overview')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">description</span>ダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadDocument('property-overview')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">description</span>ダウンロード</button>
                         </div>
-                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 PRISM価値評価レポート
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
                                 本レポートの完全版（30ページ）。公的評価、担保評価、DCF分析、25年融資計画などを含む総合的な投資判断資料です。
                             </p>
-                            <button class="btn btn-black" onclick="downloadPDF()" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">picture_as_pdf</span>PDF版をダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadPDF()" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">picture_as_pdf</span>PDF版をダウンロード</button>
                         </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
-                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 10年間収支シミュレーション
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
                                 Excelファイルで編集可能なキャッシュフロー予測。賃料上昇、空室率などのパラメータを変更してシナリオ分析が可能です。
                             </p>
-                            <button class="btn btn-black" onclick="downloadDocument('cashflow-simulation')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">table_chart</span>Excelダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadDocument('cashflow-simulation')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">table_chart</span>Excelダウンロード</button>
                         </div>
-                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 融資シミュレーション
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
                                 推奨金融機関での融資条件、25年返済シミュレーション、必要書類の一覧を記載した融資提案書です。
                             </p>
-                            <button class="btn btn-black" onclick="downloadDocument('loan-simulation')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">account_balance</span>ダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadDocument('loan-simulation')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">account_balance</span>ダウンロード</button>
                         </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 重要事項説明書（案）
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
                                 不動産取引における重要事項をまとめた法的書類です。取引前に必ずご確認ください。
                             </p>
-                            <button class="btn btn-black" onclick="downloadDocument('important-matters')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">gavel</span>ダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadDocument('important-matters')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">gavel</span>ダウンロード</button>
                         </div>
-                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
                                 売買契約書（案）
                             </h4>
-                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px;">
+                            <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
                                 本物件の売買契約書のドラフト版です。実際の契約時には最新情報で更新されます。
                             </p>
-                            <button class="btn btn-black" onclick="downloadDocument('sales-contract')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible;"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 18px;">contract</span>ダウンロード</button>
+                            <button class="btn btn-black" onclick="downloadDocument('sales-contract')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">description</span>ダウンロード</button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="action-buttons">
                     <button class="btn btn-black" onclick="requestConsultation()">LINEで詳しく相談</button>
-                    <button class="btn btn-black" onclick="downloadAllDocuments()"><span class="material-icons" style="vertical-align: middle; margin-right: 8px; font-size: 20px;">download</span>全資料一括ダウンロード</button>
+                    <button class="btn btn-black" onclick="downloadAllDocuments()" style="display: inline-flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 20px;">download</span>全資料一括ダウンロード</button>
                 </div>
             </div>
         </div>
