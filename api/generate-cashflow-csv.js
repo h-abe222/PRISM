@@ -15,8 +15,9 @@ module.exports = async (req, res) => {
         const csvContent = generateCashflowCSV();
         
         // CSVファイルとして返す
+        const filename = 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv';
         res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-        res.setHeader('Content-Disposition', 'attachment; filename="南青山プリズムビル_収支シミュレーション.csv"');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
         
         // BOMを付けて文字化けを防ぐ
         const bom = '\uFEFF';

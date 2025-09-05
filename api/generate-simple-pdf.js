@@ -89,8 +89,11 @@ module.exports = async (req, res) => {
             });
             
             // PDFを返す
+            const filename = getFileName(type);
             res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename="${getFileName(type)}"`)
+            // 日本語ファイル名を正しくエンコード
+            res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(filename)}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
+            res.setHeader('Content-Length', pdfBuffer.length);
             res.status(200).send(pdfBuffer);
             
         } finally {
@@ -120,10 +123,10 @@ function getTitle(type) {
 // ファイル名取得
 function getFileName(type) {
     const names = {
-        'property-overview': '南青山プリズムビル_物件概要書.pdf',
-        'loan-simulation': '南青山プリズムビル_融資提案書.pdf',
-        'important-matters': '南青山プリズムビル_重要事項説明書.pdf',
-        'sales-contract': '南青山プリズムビル_売買契約書.pdf'
+        'property-overview': 'Minamiaoyama_PRISM_Building_Property_Overview.pdf',
+        'loan-simulation': 'Minamiaoyama_PRISM_Building_Loan_Proposal.pdf',
+        'important-matters': 'Minamiaoyama_PRISM_Building_Important_Matters.pdf',
+        'sales-contract': 'Minamiaoyama_PRISM_Building_Sales_Contract.pdf'
     };
     return names[type] || 'document.pdf';
 }
