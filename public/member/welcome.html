@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PRISM - VIP会員専用</title>
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #3182ce;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .welcome-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .welcome-animation {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-logo {
+            display: inline-flex;
+            align-items: center;
+            height: 100px;
+            margin-bottom: 30px;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        .welcome-logo img {
+            height: 100%;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .welcome-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation-delay: 0.2s;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3em;
+            color: #e2e8f0;
+            margin-bottom: 50px;
+            line-height: 1.8;
+            animation-delay: 0.4s;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+            width: 100%;
+            animation-delay: 0.6s;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .benefit-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .benefit-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .benefit-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .benefit-description {
+            color: #e2e8f0;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .cta-section {
+            margin-top: 60px;
+            animation-delay: 0.8s;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            letter-spacing: 0.03em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1a365d;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .quick-guide {
+            margin-top: 80px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 800px;
+            animation-delay: 1s;
+        }
+
+        .guide-title {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        .guide-steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .guide-step {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .step-title {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            color: #e2e8f0;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-name {
+            color: #e2e8f0;
+        }
+
+        .skip-link {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: #e2e8f0;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+        }
+
+        .skip-link:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-logo {
+                font-size: 3em;
+            }
+            
+            .welcome-title {
+                font-size: 1.8em;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 紙吹雪エフェクト -->
+    <div class="confetti" id="confetti"></div>
+
+    <!-- ユーザー情報 -->
+    <div class="user-info">
+        <span class="user-name" id="userName">VIP会員様</span>
+    </div>
+
+    <!-- ウェルカムコンテナ -->
+    <div class="welcome-container">
+        <div class="welcome-animation">
+            <div class="welcome-logo">
+                <img src="/assets/images/logo/prism-logo-optimized.svg" alt="PRISM">
+            </div>
+            
+            <h1 class="welcome-title welcome-animation">
+                ようこそ、<span id="welcomeName">VIP会員</span>様
+            </h1>
+            
+            <p class="welcome-subtitle welcome-animation">
+                PRISMの会員登録が完了しました。<br>
+                これより、厳選された投資機会へアクセスいただけます。
+            </p>
+        </div>
+
+        <!-- 特典グリッド -->
+        <div class="benefits-grid welcome-animation">
+            <div class="benefit-card">
+                <div class="benefit-icon">🏢</div>
+                <h3 class="benefit-title">厳選物件へのアクセス</h3>
+                <p class="benefit-description">
+                    一般公開前の優良物件情報を<br>
+                    いち早くご覧いただけます
+                </p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">📊</div>
+                <h3 class="benefit-title">詳細な収益分析</h3>
+                <p class="benefit-description">
+                    AI分析による精度の高い<br>
+                    収益シミュレーション
+                </p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">👥</div>
+                <h3 class="benefit-title">専任コンサルタント</h3>
+                <p class="benefit-description">
+                    経験豊富な専門家が<br>
+                    あなたの投資をサポート
+                </p>
+            </div>
+        </div>
+
+        <!-- CTAセクション -->
+        <div class="cta-section welcome-animation">
+            <div class="cta-buttons">
+                <a href="/member/dashboard.html" class="btn btn-primary">
+                    <span>ダッシュボードへ進む</span>
+                    <span>→</span>
+                </a>
+                <a href="/member/properties/index.html" class="btn btn-secondary">
+                    <span>物件を見る</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- クイックガイド -->
+        <div class="quick-guide welcome-animation">
+            <h2 class="guide-title">🚀 はじめての3ステップ</h2>
+            
+            <div class="guide-steps">
+                <div class="guide-step">
+                    <div class="step-number">1</div>
+                    <h4 class="step-title">物件を探す</h4>
+                    <p class="step-description">
+                        あなたの条件に合った<br>
+                        投資物件を検索
+                    </p>
+                </div>
+                
+                <div class="guide-step">
+                    <div class="step-number">2</div>
+                    <h4 class="step-title">詳細を確認</h4>
+                    <p class="step-description">
+                        収益シミュレーションや<br>
+                        詳細資料をチェック
+                    </p>
+                </div>
+                
+                <div class="guide-step">
+                    <div class="step-number">3</div>
+                    <h4 class="step-title">相談する</h4>
+                    <p class="step-description">
+                        専門家に相談して<br>
+                        最適な投資プランを作成
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- スキップリンク -->
+    <a href="/member/dashboard.html" class="skip-link">このページをスキップ →</a>
+
+    <script>
+        // 紙吹雪エフェクト
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#3182ce', '#38a169', '#ed8936', '#9f7aea', '#f56565'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 3 + 's';
+                piece.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                confettiContainer.appendChild(piece);
+                
+                // アニメーション終了後に削除
+                setTimeout(() => {
+                    piece.remove();
+                }, 5000);
+            }
+        }
+
+        // ページ読み込み時の処理
+        document.addEventListener('DOMContentLoaded', function() {
+            // ユーザー情報の表示
+            const userData = JSON.parse(sessionStorage.getItem('prism_user') || '{}');
+            if (userData.name) {
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('welcomeName').textContent = userData.name;
+            } else if (userData.email) {
+                const name = userData.email === 'prism.demo@investment.com' ? 'デモユーザー' : 'VIP会員';
+                document.getElementById('userName').textContent = name;
+                document.getElementById('welcomeName').textContent = name;
+            }
+            
+            // 紙吹雪エフェクトを実行
+            createConfetti();
+            
+            // 5秒後に自動でダッシュボードへ遷移（オプション）
+            // setTimeout(() => {
+            //     window.location.href = '/member/dashboard.html';
+            // }, 5000);
+        });
+    </script>
+</body>
+</html>

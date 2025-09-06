@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF生成テスト - PRISM VIP</title>
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .test-title {
+            color: var(--primary-dark);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--gray-100);
+            padding-bottom: 10px;
+        }
+        
+        .test-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .test-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .test-btn.primary {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+        }
+        
+        .test-btn.success {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+        
+        .test-btn:disabled {
+            background: var(--gray-200);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-box {
+            background: #f0f9ff;
+            border: 2px solid #3b82f6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .result-box.success {
+            background: #f0fdf4;
+            border-color: #22c55e;
+        }
+        
+        .result-box.error {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            margin-top: 20px;
+        }
+        
+        .loading.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--gray-200);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .preview-frame {
+            width: 100%;
+            height: 600px;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        
+        .cache-info {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .cache-info h4 {
+            color: #92400e;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cache-info p {
+            color: #78350f;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="/assets/images/logo.svg" alt="PRISM">
+            </div>
+            <h1 style="font-size: 20px; font-weight: 600;">PDF生成システムテスト</h1>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <!-- キャッシュ情報 -->
+        <div class="cache-info">
+            <h4><span class="material-icons">info</span> キャッシュ戦略について</h4>
+            <p>• 複数のユーザーが同じ物件資料を閲覧するため、物件ベースでキャッシュされます</p>
+            <p>• 一度生成されたPDFは7日間キャッシュされ、次回以降は高速に配信されます</p>
+            <p>• 強制再生成オプションを使用すると、キャッシュを更新できます</p>
+        </div>
+        
+        <!-- PDF生成テスト -->
+        <div class="test-section">
+            <h2 class="test-title">1. PDF生成テスト</h2>
+            <form class="test-form" id="pdfTestForm">
+                <div class="form-row">
+                    <label>物件ID:</label>
+                    <input type="text" id="propertyId" value="001" readonly>
+                </div>
+                
+                <div class="form-row">
+                    <label>ドキュメントタイプ:</label>
+                    <select id="docType">
+                        <option value="complete">完全レポート</option>
+                        <option value="summary">サマリー</option>
+                        <option value="financial">財務分析</option>
+                        <option value="market">市場分析</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <label>ステージ (1-5):</label>
+                    <select id="stage">
+                        <option value="1">ステージ1（基本情報のみ）</option>
+                        <option value="2">ステージ2（+物件詳細）</option>
+                        <option value="3">ステージ3（+財務情報）</option>
+                        <option value="4">ステージ4（+リスク分析）</option>
+                        <option value="5" selected>ステージ5（全情報）</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <label>強制再生成:</label>
+                    <label style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="forceRegenerate">
+                        <span>キャッシュを無視して新規生成</span>
+                    </label>
+                </div>
+                
+                <div style="display: flex; gap: 20px; margin-top: 20px;">
+                    <button type="button" class="test-btn primary" onclick="generatePDF()">
+                        <span class="material-icons">picture_as_pdf</span>
+                        PDF生成
+                    </button>
+                    
+                    <button type="button" class="test-btn success" onclick="previewPDF()">
+                        <span class="material-icons">preview</span>
+                        プレビュー
+                    </button>
+                </div>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <span>PDF生成中...</span>
+            </div>
+            
+            <div class="result-box" id="result"></div>
+        </div>
+        
+        <!-- プレビュー -->
+        <div class="test-section" id="previewSection" style="display: none;">
+            <h2 class="test-title">2. PDFプレビュー</h2>
+            <p style="color: #666; margin-bottom: 10px;">
+                以下は実際にPDF生成時に使用されるページです：
+            </p>
+            <iframe class="preview-frame" id="previewFrame"></iframe>
+        </div>
+        
+        <!-- APIエンドポイント情報 -->
+        <div class="test-section">
+            <h2 class="test-title">3. APIエンドポイント情報</h2>
+            <div style="background: #f9fafb; padding: 20px; border-radius: 4px; font-family: monospace;">
+                <p><strong>エンドポイント:</strong> /api/generate-pdf</p>
+                <p><strong>メソッド:</strong> GET</p>
+                <p><strong>パラメータ:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>propertyId: 物件ID (必須)</li>
+                    <li>docType: ドキュメントタイプ (必須)</li>
+                    <li>stage: ステージ番号 1-5 (オプション、デフォルト: 5)</li>
+                    <li>forceRegenerate: 強制再生成フラグ (オプション、デフォルト: false)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function generatePDF() {
+            const propertyId = document.getElementById('propertyId').value;
+            const docType = document.getElementById('docType').value;
+            const stage = document.getElementById('stage').value;
+            const forceRegenerate = document.getElementById('forceRegenerate').checked;
+            
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            
+            loading.classList.add('show');
+            result.classList.remove('show');
+            
+            try {
+                // API URLを構築
+                const params = new URLSearchParams({
+                    propertyId,
+                    docType,
+                    stage,
+                    forceRegenerate
+                });
+                
+                const response = await fetch(`/api/generate-pdf?${params}`);
+                
+                if (response.ok) {
+                    // PDFをダウンロード
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `PRISM_${propertyId}_${docType}_stage${stage}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    result.className = 'result-box success show';
+                    result.innerHTML = `
+                        <h4 style="color: #16a34a; margin: 0 0 10px 0;">
+                            <span class="material-icons" style="vertical-align: middle;">check_circle</span>
+                            PDF生成成功
+                        </h4>
+                        <p>PDFファイルがダウンロードされました。</p>
+                        <p style="font-size: 12px; color: #666;">
+                            ファイル名: PRISM_${propertyId}_${docType}_stage${stage}.pdf
+                        </p>
+                    `;
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'PDF生成に失敗しました');
+                }
+            } catch (error) {
+                result.className = 'result-box error show';
+                result.innerHTML = `
+                    <h4 style="color: #dc2626; margin: 0 0 10px 0;">
+                        <span class="material-icons" style="vertical-align: middle;">error</span>
+                        エラー
+                    </h4>
+                    <p>${error.message}</p>
+                    <p style="font-size: 12px; color: #666;">
+                        注: ローカル環境では実際のPDF生成はできません。
+                        Vercelにデプロイ後、またはPuppeteer環境で動作します。
+                    </p>
+                `;
+            } finally {
+                loading.classList.remove('show');
+            }
+        }
+        
+        function previewPDF() {
+            const propertyId = document.getElementById('propertyId').value;
+            const stage = document.getElementById('stage').value;
+            const docType = document.getElementById('docType').value;
+            
+            const previewSection = document.getElementById('previewSection');
+            const previewFrame = document.getElementById('previewFrame');
+            
+            previewSection.style.display = 'block';
+            previewFrame.src = `/pdf-view/${propertyId}/?stage=${stage}&type=${docType}`;
+            
+            // スクロール
+            previewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

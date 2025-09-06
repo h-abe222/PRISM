@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メール確認 - PRISM VIP会員</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verify-container {
+            background: white;
+            width: 100%
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .verify-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+        }
+
+        .verify-subtitle {
+            color: #e2e8f0;
+            font-size: 0.95em;
+            letter-spacing: 0.05em;
+        }
+
+        .verify-content {
+            padding: 40px;
+        }
+
+        .mail-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .verify-title {
+            color: #1a365d;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .verify-message {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .email-display {
+            background: #eff6ff;
+            padding: 15px;
+            margin: 20px 0;
+            color: #1a365d;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-left: 4px solid #3182ce;
+        }
+
+        .verify-code-section {
+            margin: 30px 0;
+            padding: 30px;
+            background: #f7fafc;
+        }
+
+        .code-input-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 600;
+            border: 2px solid #cbd5e0;
+            background: white;
+            color: #1a365d;
+            transition: all 0.3s;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .btn-verify {
+            background: linear-gradient(to bottom, #3182ce, #2563eb);
+            color: white;
+            padding: 14px 40px;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-verify:hover {
+            background: #2563eb;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-verify:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .resend-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .resend-text {
+            color: #718096;
+            margin-bottom: 15px;
+        }
+
+        .btn-resend {
+            color: #3182ce;
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 1em;
+            padding: 10px;
+            transition: color 0.3s;
+        }
+
+        .btn-resend:hover {
+            color: #2563eb;
+        }
+
+        .btn-resend:disabled {
+            color: #cbd5e0;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        .timer {
+            color: #718096;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .verify-footer {
+            padding: 30px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .support-link {
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .support-link:hover {
+            color: #4a5568;
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3182ce;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-animation {
+            display: none;
+            font-size: 4em;
+            color: #38a169;
+            animation: checkmark 0.5s ease-in-out;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ローディング -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="verify-container">
+        <!-- ヘッダー -->
+        <div class="verify-header">
+            <div class="logo-large">
+                <img src="/assets/images/logo/prism-logo-optimized.svg" alt="PRISM">
+            </div>
+            <div class="verify-subtitle">EMAIL VERIFICATION</div>
+        </div>
+
+        <!-- メイン内容 -->
+        <div class="verify-content">
+            <div class="mail-icon" id="mailIcon">📧</div>
+            <div class="success-animation" id="successIcon">✅</div>
+            
+            <h2 class="verify-title">メールアドレスを確認してください</h2>
+            
+            <p class="verify-message">
+                ご登録ありがとうございます。<br>
+                以下のメールアドレスに確認コードをお送りしました。
+            </p>
+            
+            <div class="email-display" id="userEmail">
+                prism.demo@investment.com
+            </div>
+            
+            <div class="verify-code-section">
+                <p style="color: #4a5568; margin-bottom: 20px;">6桁の確認コードを入力してください</p>
+                
+                <form id="verifyForm" onsubmit="handleVerify(event)">
+                    <div class="code-input-group">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-verify">確認する</button>
+                </form>
+            </div>
+            
+            <div class="resend-section">
+                <p class="resend-text">確認メールが届かない場合</p>
+                <button class="btn-resend" id="resendBtn" onclick="resendCode()">確認コードを再送信</button>
+                <p class="timer" id="timer"></p>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="verify-footer">
+            <a href="/support/contact.html" class="support-link">
+                お困りの場合はサポートまでお問い合わせください
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // ページ読み込み時の処理
+        document.addEventListener('DOMContentLoaded', function() {
+            // セッションから登録情報を取得
+            const registrationData = JSON.parse(sessionStorage.getItem('prism_registration') || '{}');
+            if (registrationData.email) {
+                document.getElementById('userEmail').textContent = registrationData.email;
+            }
+            
+            // コード入力欄の自動フォーカス移動
+            const inputs = document.querySelectorAll('.code-input');
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', function(e) {
+                    if (e.target.value && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+                
+                // ペースト対応
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pastedData = e.clipboardData.getData('text');
+                    const digits = pastedData.replace(/\D/g, '').split('');
+                    
+                    digits.forEach((digit, i) => {
+                        if (index + i < inputs.length) {
+                            inputs[index + i].value = digit;
+                        }
+                    });
+                    
+                    // 最後の入力欄にフォーカス
+                    const lastIndex = Math.min(index + digits.length - 1, inputs.length - 1);
+                    inputs[lastIndex].focus();
+                });
+            });
+            
+            // 最初の入力欄にフォーカス
+            inputs[0].focus();
+        });
+        
+        // 確認処理
+        function handleVerify(event) {
+            event.preventDefault();
+            
+            const inputs = document.querySelectorAll('.code-input');
+            const code = Array.from(inputs).map(input => input.value).join('');
+            
+            if (code.length !== 6) {
+                alert('6桁のコードを入力してください。');
+                return;
+            }
+            
+            // ローディング表示
+            document.getElementById('loading').classList.add('active');
+            
+            // デモ用：確認成功処理
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('active');
+                
+                // 成功アニメーション
+                document.getElementById('mailIcon').style.display = 'none';
+                document.getElementById('successIcon').style.display = 'block';
+                
+                // 成功メッセージ
+                document.querySelector('.verify-title').textContent = 'メール認証が完了しました';
+                document.querySelector('.verify-message').innerHTML = 
+                    '認証が正常に完了しました。<br>プロフィール設定へ進みます...';
+                
+                // プロフィール設定ページへ遷移
+                setTimeout(() => {
+                    // ユーザー情報をセッションに保存
+                    const registrationData = JSON.parse(sessionStorage.getItem('prism_registration') || '{}');
+                    sessionStorage.setItem('prism_user', JSON.stringify({
+                        ...registrationData,
+                        emailVerified: true,
+                        verifiedAt: new Date().toISOString()
+                    }));
+                    
+                    window.location.href = '/member/onboarding.html';
+                }, 2000);
+            }, 1500);
+        }
+        
+        // 再送信処理
+        let resendTimer = null;
+        let resendCount = 60;
+        
+        function resendCode() {
+            const resendBtn = document.getElementById('resendBtn');
+            const timerElement = document.getElementById('timer');
+            
+            // ボタンを無効化
+            resendBtn.disabled = true;
+            
+            // タイマー開始
+            resendCount = 60;
+            timerElement.textContent = `${resendCount}秒後に再送信可能`;
+            
+            resendTimer = setInterval(() => {
+                resendCount--;
+                if (resendCount <= 0) {
+                    clearInterval(resendTimer);
+                    resendBtn.disabled = false;
+                    timerElement.textContent = '';
+                } else {
+                    timerElement.textContent = `${resendCount}秒後に再送信可能`;
+                }
+            }, 1000);
+            
+            // デモ用：再送信成功通知
+            setTimeout(() => {
+                alert('確認コードを再送信しました。');
+            }, 500);
+        }
+    </script>
+</body>
+</html>

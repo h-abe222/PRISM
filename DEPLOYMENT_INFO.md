@@ -1,32 +1,44 @@
-# PRISM VIP デプロイメント情報
+# PRISM デプロイメント情報
 
 ## 🌐 本番環境URL
-**https://prism-vip.vercel.app**
 
-このURLを必ず使用してください。他のURLは使用しないでください。
+### メイン環境（Next.js版）
+**https://prism-vip.vercel.app**  
+✅ **本番**: Next.js 15.5版（2025-09-05更新）
 
----
-
-## 📍 重要なページ一覧
-
-| ページ | URL |
-|--------|-----|
-| トップページ | https://prism-vip.vercel.app |
-| ログイン | https://prism-vip.vercel.app/auth/login.html |
-| 会員ページ | https://prism-vip.vercel.app/member/ |
-| 物件詳細（南青山） | https://prism-vip.vercel.app/properties/001/ |
-| PDFテストページ | https://prism-vip.vercel.app/test-pdf.html |
-| PDF専用ビュー | https://prism-vip.vercel.app/pdf-view/001/ |
+### 旧レガシー環境
+**https://prism-next.vercel.app**  
+⚠️ **非推奨**: 旧デプロイメント、使用しない
 
 ---
 
-## 🚀 Vercel デプロイ情報
+## 📍 重要なページ一覧（Next.js版）
 
-- **プロジェクト名**: prism-vip
-- **アカウント**: h-abe222
+| ページ | URL | 機能 |
+|--------|-----|------|
+| **トップページ** | https://prism-vip.vercel.app | 元デザイン100%維持 |
+| **ログイン** | https://prism-vip.vercel.app/auth/login.html | デモアカウント対応 |
+| **会員ページ** | https://prism-vip.vercel.app/member/ | 段階的情報開示 |
+| **物件詳細** | https://prism-vip.vercel.app/properties/001 | 日本語PDF生成 |
+
+### API エンドポイント
+| API | URL | 機能 |
+|-----|-----|------|
+| **物件概要書** | /api/pdf/property-overview | 日本語PDF生成 |
+| **融資提案書** | /api/pdf/loan-proposal | 25年返済計画 |
+| **収支CSV** | /api/csv/cashflow | 10年間シミュレーション |
+
+---
+
+## 🚀 Next.js デプロイ情報
+
+- **プロジェクト名**: prism-vip  
+- **アカウント**: h-abe222s-projects
 - **正式URL**: https://prism-vip.vercel.app
-- **フレームワーク**: 静的HTML
-- **APIエンドポイント**: /api/generate-pdf
+- **フレームワーク**: Next.js 15.5.2
+- **言語**: TypeScript
+- **PDF生成**: Puppeteer + Chromium
+- **デプロイ日**: 2025-09-05
 
 ---
 

@@ -1,27 +1,33 @@
 {
-  "name": "prism-vip",
-  "version": "1.0.0",
-  "description": "PRISM VIP - Real Estate Investment Platform",
+  "name": "prism-next",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "python3 -m http.server 3000",
-    "test": "echo \"No tests configured\""
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
   },
   "dependencies": {
-    "@sparticuz/chromium": "^119.0.0",
-    "exceljs": "^4.4.0",
-    "pdfkit": "^0.13.0",
-    "puppeteer-core": "^21.7.0"
+    "@kurkle/color": "^0.4.0",
+    "@pdf-lib/fontkit": "^1.1.1",
+    "@sparticuz/chromium-min": "^138.0.2",
+    "chart.js": "^4.5.0",
+    "next": "^15.5.2",
+    "pdf-lib": "^1.17.1",
+    "puppeteer-core": "^24.19.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "devDependencies": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
 }
