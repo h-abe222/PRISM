@@ -1750,12 +1750,15 @@
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
                                 <span style="color: var(--success); margin-right: 10px; font-size: 1.2em;">✓</span>
-                                10年間収支シミュレーション
+                                収支シミュレーション
                             </h4>
                             <p style="font-size: 0.9em; color: var(--gray-500); line-height: 1.6; margin-bottom: 15px; flex-grow: 1;">
-                                Excelファイルで編集可能なキャッシュフロー予測。賃料上昇、空室率などのパラメータを変更してシナリオ分析が可能です。
+                                詳細な収支計算と10年間のキャッシュフロー予測を含む包括的な収支分析レポートです。PDF版とExcel版をご用意しています。
                             </p>
-                            <button class="btn btn-black" onclick="downloadDocument('cashflow-simulation')" style="width: 100%; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">table_chart</span>Excelダウンロード</button>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn btn-black" onclick="downloadDocument('financial-simulation-pdf')" style="flex: 1; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">picture_as_pdf</span>PDF版</button>
+                                <button class="btn btn-black" onclick="downloadDocument('cashflow-simulation')" style="flex: 1; font-size: 0.9em; opacity: 1; visibility: visible; display: flex; align-items: center; justify-content: center;"><span class="material-icons" style="margin-right: 8px; font-size: 18px;">table_chart</span>Excel版</button>
+                            </div>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%;">
                             <h4 style="color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center;">
@@ -2479,6 +2482,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="/js/pdf-generator.js"></script>
     <script src="/js/pdf-generator-pdflib-enhanced.js"></script>
+    <script src="/js/pdf-generator-financial.js"></script>
     <script src="/js/csv-generator.js"></script>
     
     <!-- Chart.js for interactive charts -->
@@ -2798,6 +2802,14 @@
                         // pdf-libバージョンを使用（日本語対応・拡張版）
                         const pdfLibGenerator = new PDFGeneratorPdfLibEnhanced();
                         await pdfLibGenerator.generatePropertyOverview();
+                        // pdf-libは内部でダウンロード処理を行うのでここで終了
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        return;
+                    case 'financial-simulation-pdf':
+                        // 収支シミュレーションPDF（pdf-lib版）を生成
+                        const financialGenerator = new PDFGeneratorFinancial();
+                        await financialGenerator.generateFinancialSimulation();
                         // pdf-libは内部でダウンロード処理を行うのでここで終了
                         button.innerHTML = originalText;
                         button.disabled = false;

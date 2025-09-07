@@ -283,7 +283,34 @@ class PDFGeneratorPdfLibEnhanced {
         
         // ========== 2ページ目: 投資ハイライトと物件詳細 ==========
         const page2 = pdfDoc.addPage([595.28, 841.89]);
-        yPos = height - 50;
+        
+        // 2ページ目以降のヘッダー（青いロゴ配置）
+        try {
+            const logoUrl = '/assets/images/logo/prism-blue.png';
+            const logoResponse = await fetch(logoUrl);
+            
+            if (logoResponse.ok) {
+                const logoBytes = await logoResponse.arrayBuffer();
+                const logoImage = await pdfDoc.embedPng(logoBytes);
+                const logoDims = logoImage.scale(0.08);
+                const logoTopY = height - 50; // 表紙と同じ位置
+                
+                page2.drawImage(logoImage, {
+                    x: width - logoDims.width - 50,
+                    y: logoTopY - logoDims.height, // 表紙と同じ計算式
+                    width: logoDims.width,
+                    height: logoDims.height,
+                });
+                
+                // yPosをロゴの下端から5px下に設定
+                yPos = logoTopY - logoDims.height - 5;
+            } else {
+                yPos = height - 50;
+            }
+        } catch (error) {
+            console.log('Logo not available for page 2');
+            yPos = height - 50;
+        }
         
         // セクションタイトル（投資ハイライト）
         this.drawSectionTitle(page2, '投資ハイライト', yPos, colors, notoFont);
@@ -359,7 +386,34 @@ class PDFGeneratorPdfLibEnhanced {
             // ページが足りなくなったら新しいページを追加
             if (yPos < 100) {
                 currentPage = pdfDoc.addPage([595.28, 841.89]);
-                yPos = height - 50;
+                
+                // 新しいページのヘッダー（青いロゴ配置）
+                try {
+                    const logoUrl = '/assets/images/logo/prism-blue.png';
+                    const logoResponse = await fetch(logoUrl);
+                    
+                    if (logoResponse.ok) {
+                        const logoBytes = await logoResponse.arrayBuffer();
+                        const logoImage = await pdfDoc.embedPng(logoBytes);
+                        const logoDims = logoImage.scale(0.08);
+                        const logoTopY = height - 50; // 表紙と同じ位置
+                        
+                        currentPage.drawImage(logoImage, {
+                            x: width - logoDims.width - 50,
+                            y: logoTopY - logoDims.height, // 表紙と同じ計算式
+                            width: logoDims.width,
+                            height: logoDims.height,
+                        });
+                        
+                        // yPosをロゴの下端から5px下に設定
+                        yPos = logoTopY - logoDims.height - 5;
+                    } else {
+                        yPos = height - 50;
+                    }
+                } catch (error) {
+                    console.log('Logo not available for new page');
+                    yPos = height - 50;
+                }
             }
             
             this.drawDetailRow(currentPage, detail, yPos, width, colors, notoFont);
@@ -368,7 +422,34 @@ class PDFGeneratorPdfLibEnhanced {
         
         // 3ページ目を作成して写真を追加
         const page2b = pdfDoc.addPage([595.28, 841.89]);
-        yPos = height - 50;
+        
+        // 3ページ目のヘッダー（青いロゴ配置）
+        try {
+            const logoUrl = '/assets/images/logo/prism-blue.png';
+            const logoResponse = await fetch(logoUrl);
+            
+            if (logoResponse.ok) {
+                const logoBytes = await logoResponse.arrayBuffer();
+                const logoImage = await pdfDoc.embedPng(logoBytes);
+                const logoDims = logoImage.scale(0.08);
+                const logoTopY = height - 50; // 表紙と同じ位置
+                
+                page2b.drawImage(logoImage, {
+                    x: width - logoDims.width - 50,
+                    y: logoTopY - logoDims.height, // 表紙と同じ計算式
+                    width: logoDims.width,
+                    height: logoDims.height,
+                });
+                
+                // yPosをロゴの下端から5px下に設定
+                yPos = logoTopY - logoDims.height - 5;
+            } else {
+                yPos = height - 50;
+            }
+        } catch (error) {
+            console.log('Logo not available for page 3');
+            yPos = height - 50;
+        }
         
         // 物件写真セクション
         this.drawSectionTitle(page2b, '物件写真', yPos, colors, notoFont);
@@ -460,7 +541,34 @@ class PDFGeneratorPdfLibEnhanced {
         
         // ========== 4ページ目: ロケーション情報 ==========
         const page4 = pdfDoc.addPage([595.28, 841.89]);
-        yPos = height - 50;
+        
+        // 4ページ目のヘッダー（青いロゴ配置）
+        try {
+            const logoUrl = '/assets/images/logo/prism-blue.png';
+            const logoResponse = await fetch(logoUrl);
+            
+            if (logoResponse.ok) {
+                const logoBytes = await logoResponse.arrayBuffer();
+                const logoImage = await pdfDoc.embedPng(logoBytes);
+                const logoDims = logoImage.scale(0.08);
+                const logoTopY = height - 50; // 表紙と同じ位置
+                
+                page4.drawImage(logoImage, {
+                    x: width - logoDims.width - 50,
+                    y: logoTopY - logoDims.height, // 表紙と同じ計算式
+                    width: logoDims.width,
+                    height: logoDims.height,
+                });
+                
+                // yPosをロゴの下端から5px下に設定
+                yPos = logoTopY - logoDims.height - 5;
+            } else {
+                yPos = height - 50;
+            }
+        } catch (error) {
+            console.log('Logo not available for page 4');
+            yPos = height - 50;
+        }
         
         // セクションタイトル（ロケーション情報）
         this.drawSectionTitle(page4, 'ロケーション情報', yPos, colors, notoFont);
@@ -730,7 +838,34 @@ class PDFGeneratorPdfLibEnhanced {
         if (yPos < 150) {
             // 新しいページを追加
             const page5 = pdfDoc.addPage([595.28, 841.89]);
-            yPos = height - 50;
+            
+            // 5ページ目のヘッダー（青いロゴ配置）
+            try {
+                const logoUrl = '/assets/images/logo/prism-blue.png';
+                const logoResponse = await fetch(logoUrl);
+                
+                if (logoResponse.ok) {
+                    const logoBytes = await logoResponse.arrayBuffer();
+                    const logoImage = await pdfDoc.embedPng(logoBytes);
+                    const logoDims = logoImage.scale(0.08);
+                    const logoTopY = height - 50; // 表紙と同じ位置
+                    
+                    page5.drawImage(logoImage, {
+                        x: width - logoDims.width - 50,
+                        y: logoTopY - logoDims.height, // 表紙と同じ計算式
+                        width: logoDims.width,
+                        height: logoDims.height,
+                    });
+                    
+                    // yPosをロゴの下端から5px下に設定
+                    yPos = logoTopY - logoDims.height - 5;
+                } else {
+                    yPos = height - 50;
+                }
+            } catch (error) {
+                console.log('Logo not available for page 5');
+                yPos = height - 50;
+            }
             
             page5.drawText('Google Mapsで確認: ', {
                 x: 60,
