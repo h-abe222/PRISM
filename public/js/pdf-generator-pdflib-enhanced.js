@@ -1090,6 +1090,241 @@ class PDFGeneratorPdfLibEnhanced {
             color: detail.highlight ? colors.primary : colors.text,
         });
     }
+
+    // PRISM価値評価レポート生成（価格査定タブの内容）
+    async generateValuationReport() {
+        await this.loadPdfLib();
+        
+        const { PDFDocument, rgb, StandardFonts } = PDFLib;
+        
+        // 新しいPDFドキュメントを作成
+        const pdfDoc = await PDFDocument.create();
+        
+        // fontkitを登録
+        pdfDoc.registerFontkit(fontkit);
+        
+        // 日本語フォントを読み込み
+        let notoFont;
+        try {
+            const fontUrl = 'https://fonts.gstatic.com/s/notosansjp/v52/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEj75s.ttf';
+            const fontResponse = await fetch(fontUrl);
+            
+            if (!fontResponse.ok) {
+                throw new Error('Failed to load font');
+            }
+            
+            const fontBytes = await fontResponse.arrayBuffer();
+            notoFont = await pdfDoc.embedFont(fontBytes, { subset: true });
+        } catch (error) {
+            console.error('Font loading failed:', error);
+            notoFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        }
+        
+        // カラー定義
+        const colors = {
+            primary: rgb(0.2, 0.3, 0.5),
+            primaryLight: rgb(0.4, 0.5, 0.7),
+            success: rgb(0.1, 0.5, 0.1),
+            text: rgb(0.1, 0.1, 0.1),
+            textLight: rgb(0.4, 0.4, 0.4),
+            background: rgb(0.98, 0.98, 0.98),
+        };
+        
+        // ページ1: 表紙と査定結果サマリー
+        const page1 = pdfDoc.addPage([595, 842]); // A4サイズ
+        const { width, height } = page1.getSize();
+        
+        // ヘッダー背景
+        page1.drawRectangle({
+            x: 0,
+            y: height - 150,
+            width: width,
+            height: 150,
+            color: colors.primary,
+        });
+        
+        // タイトル
+        page1.drawText('PRISM価値評価レポート', {
+            x: 50,
+            y: height - 60,
+            size: 24,
+            font: notoFont,
+            color: rgb(1, 1, 1),
+        });
+        
+        page1.drawText('南青山プリズムビル', {
+            x: 50,
+            y: height - 90,
+            size: 20,
+            font: notoFont,
+            color: rgb(1, 1, 1),
+        });
+        
+        page1.drawText('価格査定分析', {
+            x: 50,
+            y: height - 120,
+            size: 16,
+            font: notoFont,
+            color: rgb(0.9, 0.9, 0.9),
+        });
+        
+        // 査定結果サマリー
+        let yPos = height - 200;
+        this.drawSectionTitle(page1, '査定結果サマリー', yPos, colors, notoFont);
+        
+        // KPI情報
+        const kpiData = [
+            { label: '売出価格', value: '3.85億円' },
+            { label: 'PRISM査定価格', value: '3.81億円' },
+            { label: '価格妥当性', value: '適正（市場価格）' },
+            { label: '投資推奨度', value: 'S（最優先推奨）' },
+        ];
+        
+        yPos -= 50;
+        kpiData.forEach((kpi, index) => {
+            const xOffset = 60 + (index % 2) * 250;
+            const yOffset = yPos - Math.floor(index / 2) * 60;
+            
+            // KPIボックス
+            page1.drawRectangle({
+                x: xOffset - 10,
+                y: yOffset - 35,
+                width: 230,
+                height: 50,
+                color: colors.background,
+                borderColor: colors.primaryLight,
+                borderWidth: 1,
+            });
+            
+            page1.drawText(kpi.label, {
+                x: xOffset,
+                y: yOffset - 15,
+                size: 10,
+                font: notoFont,
+                color: colors.textLight,
+            });
+            
+            page1.drawText(kpi.value, {
+                x: xOffset,
+                y: yOffset - 30,
+                size: 14,
+                font: notoFont,
+                color: colors.primary,
+            });
+        });
+        
+        // 建物設備仕様
+        yPos -= 150;
+        this.drawSectionTitle(page1, '建物設備仕様', yPos, colors, notoFont);
+        
+        const specs = [
+            { label: '電気設備', value: '60VA/㎡・高圧受電・各階個別契約対応' },
+            { label: '空調設備', value: '個別空調方式・24時間対応可能' },
+            { label: 'セキュリティ', value: 'セコム24時間監視・ICカード対応' },
+            { label: 'エレベーター', value: '乗用13人乗り×1基' },
+            { label: '駐車場', value: '機械式8台（月額45,000円）' },
+        ];
+        
+        yPos -= 30;
+        specs.forEach((spec) => {
+            this.drawDetailRow(page1, spec, yPos, width, colors, notoFont);
+            yPos -= 30;
+        });
+        
+        // ページ2: 公的評価・担保評価分析
+        const page2 = pdfDoc.addPage([595, 842]);
+        yPos = height - 80;
+        
+        // ページヘッダー
+        page2.drawRectangle({
+            x: 0,
+            y: height - 60,
+            width: width,
+            height: 60,
+            color: colors.primary,
+        });
+        
+        page2.drawText('公的評価・担保評価分析', {
+            x: 50,
+            y: height - 40,
+            size: 18,
+            font: notoFont,
+            color: rgb(1, 1, 1),
+        });
+        
+        yPos = height - 120;
+        this.drawSectionTitle(page2, '評価額比較', yPos, colors, notoFont);
+        
+        const evaluations = [
+            { label: '最終評価額（本レポート）', value: '385,000,000円', highlight: true },
+            { label: '積算価格', value: '381,205,529円（-1.0%）' },
+            { label: '収益還元価格（平均）', value: '363,675,500円（-5.5%）' },
+            { label: '銀行担保評価（推定）', value: '276,211,593円（-28.3%）', highlight: true },
+        ];
+        
+        yPos -= 40;
+        evaluations.forEach((eval) => {
+            this.drawDetailRow(page2, eval, yPos, width, colors, notoFont);
+            yPos -= 35;
+        });
+        
+        // 融資条件シミュレーション
+        yPos -= 30;
+        this.drawSectionTitle(page2, '融資条件シミュレーション', yPos, colors, notoFont);
+        
+        const loanConditions = [
+            { label: 'LTV 50%', value: '融資額1.38億円 DSCR 3.85 ◎優良' },
+            { label: 'LTV 60%（推奨）', value: '融資額2.31億円 DSCR 3.21 ◎優良', highlight: true },
+            { label: 'LTV 70%', value: '融資額2.69億円 DSCR 2.75 ○良好' },
+        ];
+        
+        yPos -= 40;
+        loanConditions.forEach((condition) => {
+            this.drawDetailRow(page2, condition, yPos, width, colors, notoFont);
+            yPos -= 35;
+        });
+        
+        // 推奨融資条件
+        yPos -= 30;
+        this.drawSectionTitle(page2, '推奨融資条件', yPos, colors, notoFont);
+        
+        const recommendations = [
+            { label: 'LTV', value: '60%以内（融資額2.31億円）' },
+            { label: '金利', value: '1.0～1.5%（変動金利）' },
+            { label: '返済期間', value: '20～25年' },
+            { label: 'DSCR', value: '3.21倍（十分な返済余力）' },
+        ];
+        
+        yPos -= 40;
+        recommendations.forEach((rec) => {
+            this.drawDetailRow(page2, rec, yPos, width, colors, notoFont);
+            yPos -= 30;
+        });
+        
+        // フッター
+        const footer = `作成日: ${new Date().toLocaleDateString('ja-JP')} | PRISM不動産投資システム`;
+        page2.drawText(footer, {
+            x: 50,
+            y: 30,
+            size: 9,
+            font: notoFont,
+            color: colors.textLight,
+        });
+        
+        // PDFを保存
+        const pdfBytes = await pdfDoc.save();
+        
+        // ダウンロード
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Minamiaoyama_PRISM_Valuation_Report.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    }
 }
 
 // グローバルに公開

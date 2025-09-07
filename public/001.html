@@ -2280,22 +2280,29 @@
             // ローディング表示
             button.innerHTML = `
                 <span class="material-icons" style="animation: spin 1s linear infinite; margin-right: 8px;">sync</span>
-                ダウンロード中...
+                生成中...
             `;
             button.disabled = true;
             
             try {
-                // 完全版レポートは現在サンプルPDFを使用
-                // TODO: 将来的にクライアントサイドで完全版レポートを生成
-                const link = document.createElement('a');
-                link.href = '/report_sample/南青山プリズムビル_完全投資レポート_PRISM.pdf';
-                link.download = '南青山プリズムビル_完全投資レポート_PRISM.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                // PDFGeneratorPdfLibEnhancedを使用して価格査定レポートを生成
+                const pdfLibGenerator = new PDFGeneratorPdfLibEnhanced();
+                await pdfLibGenerator.generateValuationReport();
+                console.log('Valuation report generated successfully');
             } catch (error) {
-                console.error('PDF download error:', error);
-                alert('PDFのダウンロードに失敗しました');
+                console.error('PDF generation error:', error);
+                // フォールバック: サンプルPDFをダウンロード
+                try {
+                    const link = document.createElement('a');
+                    link.href = '/report_sample/南青山プリズムビル_完全投資レポート_PRISM.pdf';
+                    link.download = '南青山プリズムビル_完全投資レポート_PRISM.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } catch (fallbackError) {
+                    console.error('Fallback PDF download error:', fallbackError);
+                    alert('PDFの生成に失敗しました。しばらく経ってから再度お試しください。');
+                }
             } finally {
                 // ボタンを元に戻す
                 button.innerHTML = originalContent;
@@ -2421,9 +2428,15 @@
                     await new Promise(resolve => setTimeout(resolve, 500));
                     
                     if (type === 'complete') {
-                        // PRISM価値評価レポートのダウンロード
-                        await downloadPDF('complete');
-                        successCount++;
+                        // PRISM価値評価レポート（価格査定レポート）のダウンロード
+                        try {
+                            const pdfLibGenerator = new PDFGeneratorPdfLibEnhanced();
+                            await pdfLibGenerator.generateValuationReport();
+                            successCount++;
+                        } catch (error) {
+                            console.error('Failed to generate valuation report:', error);
+                            failCount++;
+                        }
                     } else if (type === 'cashflow-simulation') {
                         // CSVジェネレーターを使用
                         try {
