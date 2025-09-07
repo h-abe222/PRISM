@@ -2426,10 +2426,18 @@
                         successCount++;
                     } else if (type === 'cashflow-simulation') {
                         // CSVジェネレーターを使用
-                        const csvGen = new CSVGenerator();
-                        const csvContent = csvGen.generateCashflowCSV();
-                        csvGen.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
-                        successCount++;
+                        try {
+                            console.log('Starting CSV generation...');
+                            const csvGen = new CSVGenerator();
+                            const csvContent = csvGen.generateCashflowCSV();
+                            console.log('CSV content generated, downloading...');
+                            csvGen.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
+                            successCount++;
+                            console.log('CSV download initiated successfully');
+                        } catch (csvError) {
+                            console.error('CSV generation/download error:', csvError);
+                            throw csvError;
+                        }
                     } else {
                         // PDFジェネレーターを使用
                         const pdfGen = new PDFGenerator();
@@ -2777,9 +2785,24 @@
             let pdfGenerator;
             let csvGenerator;
             try {
-                pdfGenerator = new PDFGenerator();
-                csvGenerator = new CSVGenerator();
-                await pdfGenerator.loadJsPDF();
+                if (typeof PDFGenerator !== 'undefined') {
+                    pdfGenerator = new PDFGenerator();
+                    console.log('PDFGenerator initialized');
+                } else {
+                    console.error('PDFGenerator is not defined');
+                }
+                
+                if (typeof CSVGenerator !== 'undefined') {
+                    csvGenerator = new CSVGenerator();
+                    console.log('CSVGenerator initialized');
+                } else {
+                    console.error('CSVGenerator is not defined');
+                }
+                
+                if (pdfGenerator && typeof pdfGenerator.loadJsPDF === 'function') {
+                    await pdfGenerator.loadJsPDF();
+                    console.log('PDF library loaded');
+                }
                 console.log('Generators initialized');
             } catch (error) {
                 console.error('Generator initialization failed:', error);
@@ -2828,8 +2851,20 @@
                         break;
                     case 'cashflow-simulation':
                         // CSVダウンロード（クライアントサイド生成）
-                        const csvContent = csvGenerator.generateCashflowCSV();
-                        csvGenerator.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
+                        try {
+                            if (!csvGenerator) {
+                                console.error('CSVGenerator not initialized');
+                                throw new Error('CSV生成機能が初期化されていません');
+                            }
+                            console.log('Starting CSV generation...');
+                            const csvContent = csvGenerator.generateCashflowCSV();
+                            console.log('CSV content generated, downloading...');
+                            csvGenerator.downloadCSV(csvContent, 'Minamiaoyama_PRISM_Building_Cashflow_Simulation.csv');
+                            console.log('CSV download initiated successfully');
+                        } catch (csvError) {
+                            console.error('CSV generation/download error:', csvError);
+                            throw csvError;
+                        }
                         break;
                     default:
                         throw new Error('Unknown document type');
