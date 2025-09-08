@@ -13,6 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        {/* プリロードでスタイルを先読み */}
+        <link rel="preload" href="/assets/css/common.css" as="style" />
+        <link rel="preload" href="/assets/css/auth.css" as="style" />
+      </head>
       <body>
         {children}
       </body>

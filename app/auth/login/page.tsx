@@ -47,8 +47,6 @@ export default function LoginPage() {
 
   return (
     <>
-      <link rel="stylesheet" href="/assets/css/common.css" />
-      <link rel="stylesheet" href="/assets/css/auth.css" />
       <style jsx>{`
         .btn-demo {
           width: 100%;
@@ -63,6 +61,15 @@ export default function LoginPage() {
         }
         .btn-demo:hover {
           background: #2f855a;
+        }
+        /* 初期表示時のフラッシュを防ぐ */
+        .auth-body {
+          opacity: 1;
+          animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
 
